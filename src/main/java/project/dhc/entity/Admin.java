@@ -1,4 +1,4 @@
-package project.dhc.Entity;
+package project.dhc.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

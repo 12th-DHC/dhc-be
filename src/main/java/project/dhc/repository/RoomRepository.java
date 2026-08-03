@@ -1,8 +1,8 @@
-package project.dhc.Repository;
+package project.dhc.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import project.dhc.Entity.Room;
+import project.dhc.entity.Room;
 
 import java.util.Optional;
 

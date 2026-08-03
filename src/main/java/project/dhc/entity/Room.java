@@ -1,4 +1,4 @@
-package project.dhc.Entity;
+package project.dhc.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -18,7 +18,7 @@ public class Room {
     @Column(name = "room_id")
     private Long roomId;
 
-    @Column(name = "roo_number", nullable = false, unique = true) // null 허용 X, 중복 허용 X
+    @Column(name = "room_number", nullable = false, unique = true) // null 허용 X, 중복 허용 X
     private Integer roomNumber;
 
     @Column(name = "A_email")
@@ -28,5 +28,5 @@ public class Room {
     private String bEmail;
 
     @Column(nullable = false)
-    private String adminPassword;
+    private String roomPassword;
 }
