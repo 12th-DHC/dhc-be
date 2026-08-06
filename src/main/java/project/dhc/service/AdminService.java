@@ -4,6 +4,8 @@ package project.dhc.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import project.dhc.entity.Admin;
+import project.dhc.global.exception.BusinessException;
+import project.dhc.global.exception.ErrorCode;
 import project.dhc.repository.AdminRepository;
 import project.dhc.dto.request.AdminLoginRequest;
 import project.dhc.dto.response.LoginResponse;
@@ -20,7 +22,7 @@ public class AdminService {
 
         // 비밀번호 확인
         if(!admin.getAdminPassword().equals(request.getAdminPassword())) {
-            throw new RuntimeException("비밀번호가 올바르지 않습니다.");
+            throw new BusinessException(ErrorCode.INVALID_PASSWORD);
         }
 
         // 로그인 성공
