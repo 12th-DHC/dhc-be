@@ -1,6 +1,5 @@
 package project.dhc.dto.request;
 
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,8 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserLoginRequest {
+public class PasswordChangeRequest {
 
     private Integer roomNumber;
-    private String roomPassword;
+    private String currentPassword;
+    private String newPassword;
 }
