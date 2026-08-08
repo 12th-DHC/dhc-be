@@ -21,10 +21,10 @@ public class Room {
     @Column(name = "room_number", nullable = false, unique = true) // null 허용 X, 중복 허용 X
     private Integer roomNumber;
 
-    @Column(name = "A_email")
+    @Column(name = "a_email")
     private String aEmail;
 
-    @Column(name = "B_email")
+    @Column(name = "b_email")
     private String bEmail;
 
     @Column(nullable = false)
