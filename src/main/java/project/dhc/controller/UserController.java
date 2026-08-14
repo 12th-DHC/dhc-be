@@ -18,7 +18,7 @@ import project.dhc.global.exception.BusinessException;
 import project.dhc.global.exception.ErrorCode;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 

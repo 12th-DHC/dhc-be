@@ -3,8 +3,8 @@ POST http://localhost:8080/user/login
 Content-Type: application/json
 
 {
-  "room_number": 101,
-  "room_password": "room1234"
+  "room_number": 301,
+  "room_password": "1234!"
 }
 
 ### 2. 이메일 등록 (101번 방 A구역)
