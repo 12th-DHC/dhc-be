@@ -1,17 +1,6 @@
-### 1. 로그인 실행 (세션 생성)
-POST http://localhost:8080/user/login
+POST http://localhost:8080/admin/login
 Content-Type: application/json
 
 {
-  "room_number": 301,
-  "room_password": "1234!"
-}
-
-### 2. 이메일 등록 (101번 방 A구역)
-POST http://localhost:8080/user/email
-Content-Type: application/json
-
-{
-  "area": "A",
-  "email": "abcadsf@gmail.com"
+  "adminPassword" : "admin123"
 }

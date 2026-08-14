@@ -19,7 +19,7 @@ public class CleaningCheckService {
     private final RoomRepository roomRepository;
     private final AdminRepository adminRepository;
 
-    public void registerCleaningCheck(CleaningCheckRequest request) {
+    public void registerCleaningCheck(Integer roomNumber, CleaningCheckRequest request) {
         Room room=roomRepository.findByRoomNumber(request.getRoomNumber())
                 .orElseThrow(() ->RoomNotFoundException.EXCEPTION);
 
