@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import project.dhc.dto.request.PasswordChangeRequest;
-import project.dhc.dto.response.LoginResponse;
+import project.dhc.dto.response.PasswordChangeResponse;
 import project.dhc.service.PasswordService;
 
 @RestController
@@ -17,7 +17,7 @@ public class PasswordController {
     private final PasswordService passwordService;
 
     @PatchMapping("/password")
-    public LoginResponse changePassword(
+    public PasswordChangeResponse changePassword(
             @RequestBody PasswordChangeRequest request
     ) {
         return passwordService.changePassword(request);

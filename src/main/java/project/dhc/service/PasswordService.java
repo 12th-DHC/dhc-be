@@ -4,9 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import project.dhc.dto.request.PasswordChangeRequest;
-import project.dhc.dto.response.LoginResponse;
+import project.dhc.dto.response.PasswordChangeResponse;
 import project.dhc.entity.Room;
 import project.dhc.repository.RoomRepository;
+import project.dhc.util.JwtTokenProvider;
 
 @Service
 @RequiredArgsConstructor
@@ -14,8 +15,9 @@ public class PasswordService {
 
     private final RoomRepository roomRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    public LoginResponse changePassword(PasswordChangeRequest request) {
+    public PasswordChangeResponse changePassword(PasswordChangeRequest request) {
 
         // 방 번호로 방 찾기
         Room room = roomRepository.findByRoomNumber(request.getRoomNumber())
@@ -39,8 +41,9 @@ public class PasswordService {
         room.setRoomPassword(encodedPassword);
         roomRepository.save(room);
 
+
         // 성공 응답
-        return new LoginResponse(
+        return new PasswordChangeResponse(
                 200,
                 "비밀번호가 성공적으로 변경되었습니다."
         );
