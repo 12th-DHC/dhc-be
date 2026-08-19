@@ -20,21 +20,29 @@ public class CleaningCheckService {
     private final AdminRepository adminRepository;
 
     public void registerCleaningCheck(Integer roomNumber, CleaningCheckRequest request) {
-        Room room=roomRepository.findByRoomNumber(request.getRoomNumber())
-                .orElseThrow(() ->RoomNotFoundException.EXCEPTION);
+        Room room = roomRepository.findByRoomNumber(roomNumber)
+                .orElseThrow(() -> RoomNotFoundException.EXCEPTION);
 
-        CleaningCheck check = CleaningCheck.builder()
-                .date(request.getDate())
-                .aPassed(request.getAPassed())
-                .aNotpassReason(request.getANotpassReason())
-                .aIndPassed(request.getAIndPassed())
-                .aIndNotpassReason(request.getAIndNotpassReason())
-                .bPassed(request.getBPassed())
-                .bNotpassReason(request.getBNotpassReason())
-                .bIndPassed(request.getBIndPassed())
-                .bIndNotpassReason(request.getBIndNotpassReason())
-                .room(room)
-                .build();
-        cleaningCheckRepository.save(check);
+        cleaningCheckRepository
+                .roomNumberAndDate(roomNumber, request.getDate())
+                .ifPresentOrElse(
+                        check -> check.update(request),
+                        () -> {
+                            CleaningCheck check = CleaningCheck.builder()
+                                    .date(request.getDate())
+                                    .aPassed(request.getAPassed())
+                                    .aNotpassReason(request.getANotpassReason())
+                                    .aIndPassed(request.getAIndPassed())
+                                    .aIndNotpassReason(request.getAIndNotpassReason())
+                                    .bPassed(request.getBPassed())
+                                    .bNotpassReason(request.getBNotpassReason())
+                                    .bIndPassed(request.getBIndPassed())
+                                    .bIndNotpassReason(request.getBIndNotpassReason())
+                                    .room(room)
+                                    .build();
+
+                            cleaningCheckRepository.save(check);
+                        }
+                );
     }
 }
