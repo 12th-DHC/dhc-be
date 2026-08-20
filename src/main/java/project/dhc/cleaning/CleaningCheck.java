@@ -2,8 +2,6 @@ package project.dhc.cleaning;
 
 import jakarta.persistence.*;
 import lombok.*;
-import project.dhc.cleaning.dto.CleaningCheckRequest;
-import project.dhc.entity.Admin;
 import project.dhc.entity.Room;
 
 import java.time.LocalDate;
@@ -51,7 +49,7 @@ public class CleaningCheck {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_number", referencedColumnName = "room_number",nullable = false)
     private Room room;
-    public void update(CleaningCheckRequest request) {
+    public void update(project.dhc.cleaning.dto.CleaningCheckRequest request) {
         this.date = request.getDate();
         this.aPassed = request.getAPassed();
         this.aNotpassReason = request.getANotpassReason();

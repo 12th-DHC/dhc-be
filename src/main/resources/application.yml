@@ -10,6 +10,9 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
 
   jackson:
     property-naming-strategy: LOWER_CAMEL_CASE
@@ -22,4 +25,8 @@ logging:
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.orm.jdbc.bind: TRACE
-
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace

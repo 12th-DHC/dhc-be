@@ -1,15 +1,2 @@
-POST http://localhost:8080/admin/check/101
-Content-Type: application/json
-
-{
-  "roomNumber": 101,
-  "date": "2026-08-19",
-  "aPassed": true,
-  "aNotpassReason": null,
-  "aIndPassed": true,
-  "aIndNotpassReason": null,
-  "bPassed": true,
-  "bNotpassReason": null,
-  "bIndPassed": false,
-  "bIndNotpassReason": "분리수거 필요"
-}
+### 관리자: 101호 청소 점검 조회
+GET /localhost:8080/room/search/101?date=2026-08-20

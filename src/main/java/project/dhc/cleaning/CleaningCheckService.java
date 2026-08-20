@@ -5,11 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.dhc.cleaning.dto.CleaningCheckRequest;
-import project.dhc.entity.Admin;
 import project.dhc.entity.Room;
+import project.dhc.global.exception.exceptions.CleaningSearchNotFoundException;
 import project.dhc.global.exception.exceptions.RoomNotFoundException;
 import project.dhc.repository.AdminRepository;
 import project.dhc.repository.RoomRepository;
+
+import java.time.LocalDate;
 
 @Service
 @Transactional
@@ -24,7 +26,7 @@ public class CleaningCheckService {
                 .orElseThrow(() -> RoomNotFoundException.EXCEPTION);
 
         cleaningCheckRepository
-                .roomNumberAndDate(roomNumber, request.getDate())
+                .findByRoomRoomNumberAndDate(roomNumber, request.getDate())
                 .ifPresentOrElse(
                         check -> check.update(request),
                         () -> {
@@ -44,5 +46,10 @@ public class CleaningCheckService {
                             cleaningCheckRepository.save(check);
                         }
                 );
+    }
+    public CleaningSearch getCleaningSearch(int roomNumber, LocalDate date)
+    {
+        return cleaningCheckRepository.findCleaningSearch(roomNumber, date)
+                .orElseThrow(() -> CleaningSearchNotFoundException.EXCEPTION);
     }
 }

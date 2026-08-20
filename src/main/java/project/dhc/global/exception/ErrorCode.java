@@ -13,6 +13,7 @@ public enum ErrorCode {
     INVALID_PASSWORD(401, "INVALID_PASSWORD", "비밀번호가 올바르지 않습니다."),
 
     ROOM_NOT_FOUND(404, "ROOM_NOT_FOUND", "존재하지 않는 호실입니다."),
+    CLEANING_SEARCH_NOT_FOUND(404,"CLEANING_SEARCH_NOT_FOUND", "청소 조회 결과가 없습니다."),
 
     INTERNAL_SERVER_ERR(500, "INTERNAL_SERVER_ERR", "서버 측 오류가 발생했습니다.");
     private Integer statusCode;
