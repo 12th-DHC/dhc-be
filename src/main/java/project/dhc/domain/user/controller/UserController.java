@@ -6,19 +6,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import project.dhc.domain.auth.dto.request.UserLoginRequest;
-import project.dhc.domain.auth.dto.response.LoginResponse;
-import project.dhc.domain.user.service.UserService;
+import project.dhc.auth.dto.request.UserLoginRequest;
+import project.dhc.auth.dto.response.LoginResponse;
+import project.dhc.auth.service.AuthService;
 
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+    private final AuthService authService;
 
     @PostMapping("/login")
     public LoginResponse login(@RequestBody UserLoginRequest request){
-        return userService.login(request);
+        return authService.userLogin(request);
     }
 }

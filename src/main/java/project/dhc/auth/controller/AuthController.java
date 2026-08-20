@@ -1,11 +1,11 @@
-package project.dhc.domain.auth.controller;
+package project.dhc.auth.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import project.dhc.domain.auth.dto.request.AdminLoginRequest;
-import project.dhc.domain.auth.dto.request.UserLoginRequest;
-import project.dhc.domain.auth.dto.response.LoginResponse;
-import project.dhc.domain.auth.service.AuthService;
+import project.dhc.auth.dto.request.AdminLoginRequest;
+import project.dhc.auth.dto.request.UserLoginRequest;
+import project.dhc.auth.dto.response.LoginResponse;
+import project.dhc.auth.service.AuthService;
 
 @RestController
 @RequestMapping("/auth") // 기본 주소

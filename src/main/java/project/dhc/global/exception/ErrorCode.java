@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
 
     ADMIN_NOT_FOUND(
-            HttpStatus.NOT_FOUND
+            HttpStatus.NOT_FOUND,
             "관리자 계정이 존재하지 않습니다."
     ),
 

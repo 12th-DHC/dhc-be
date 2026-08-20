@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import project.dhc.domain.user.dto.request.PasswordChangeRequest;
 import project.dhc.domain.user.dto.response.PasswordChangeResponse;
+import project.dhc.domain.user.service.PasswordService;
 
 @RestController
 @RequiredArgsConstructor
