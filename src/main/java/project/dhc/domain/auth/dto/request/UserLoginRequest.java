@@ -1,4 +1,4 @@
-package project.dhc.domain.user.dto.request;
+package project.dhc.domain.auth.dto.request;
 
 
 import lombok.Getter;

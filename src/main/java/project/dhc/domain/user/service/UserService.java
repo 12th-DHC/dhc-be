@@ -4,8 +4,8 @@ package project.dhc.domain.user.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import project.dhc.domain.user.dto.request.UserLoginRequest;
-import project.dhc.domain.admin.dto.response.LoginResponse;
+import project.dhc.domain.auth.dto.request.UserLoginRequest;
+import project.dhc.domain.auth.dto.response.LoginResponse;
 import project.dhc.domain.user.entity.Room;
 import project.dhc.domain.user.repository.RoomRepository;
 import project.dhc.global.exception.CustomException;
@@ -44,7 +44,7 @@ public class UserService {
         return new LoginResponse(
                 200,
                 "로그인 완료",
-        accessToken
+                accessToken
                 );
     }
 }

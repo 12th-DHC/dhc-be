@@ -9,6 +9,11 @@ import org.springframework.http.HttpStatus;
 @Getter
 public enum ErrorCode {
 
+    ADMIN_NOT_FOUND(
+            HttpStatus.NOT_FOUND
+            "관리자 계정이 존재하지 않습니다."
+    ),
+
     ROOM_NOT_FOUND(
             HttpStatus.NOT_FOUND,
             "존재하지 않는 호실입니다."
