@@ -11,7 +11,7 @@ import project.dhc.domain.user.service.PasswordService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 public class PasswordController {
 
     private final PasswordService passwordService;
