@@ -1,4 +1,13 @@
 package project.dhc.statistics.dto.response;
 
-public class weekluStatisticsResponse {
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor
+public class weeklyStatisticsResponse {
+
+    private int userCount;
+    private int passedCount;
+    private int indPassedCount;
 }
