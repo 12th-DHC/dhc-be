@@ -1,13 +1,13 @@
-package project.dhc.auth.service;
+package project.dhc.domain.auth.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import project.dhc.domain.admin.entity.Admin;
 import project.dhc.domain.admin.repository.AdminRepository;
-import project.dhc.auth.dto.request.AdminLoginRequest;
-import project.dhc.auth.dto.request.UserLoginRequest;
-import project.dhc.auth.dto.response.LoginResponse;
+import project.dhc.domain.auth.dto.request.AdminLoginRequest;
+import project.dhc.domain.auth.dto.request.UserLoginRequest;
+import project.dhc.domain.auth.dto.response.LoginResponse;
 import project.dhc.domain.user.entity.Room;
 import project.dhc.domain.user.repository.RoomRepository;
 import project.dhc.global.exception.CustomException;
