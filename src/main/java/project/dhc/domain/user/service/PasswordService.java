@@ -18,6 +18,7 @@ public class PasswordService {
     private final RoomRepository roomRepository;
     private final PasswordEncoder passwordEncoder;
 
+
     // 비밀번호 변경
     @Transactional // 비밀번호 변경 내용을 DB에 반영
     public PasswordChangeResponse changePassword(
