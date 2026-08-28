@@ -1,10 +1,8 @@
-### ==========================================
-### 3. 유저(호실) 로그인 테스트 (성공)
-### ==========================================
-POST http://localhost:8080/user/login
+POST http://localhost:8080/user/email
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxMDEiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc4NzkyOTQ5MiwiZXhwIjoxNzg3OTMzMDkyfQ.V6TnpmcRNeB0r43az1GDJalPBryF27uGteDyb7T2Ohm7h1dNdT68v2NZbZ4EZvlo
 
 {
-  "room_number": 301,
-  "room_password": "1234!"
+  "area": "B",
+  "email": "20261207@dsm.hs.kr"
 }

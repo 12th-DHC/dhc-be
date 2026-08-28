@@ -4,12 +4,12 @@ package project.dhc.domain.email;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import project.dhc.global.exception.exceptions.RoomNotFoundException;
 
 @RestController
 @RequestMapping("/user")
@@ -21,11 +21,9 @@ public class EmailController {
     @PostMapping("/email")
     public ResponseEntity<String> registerEmail(
             @Valid @RequestBody EmailRegisterRequest request,
-            HttpSession session
+            Authentication authentication
     ) {
-        Integer roomNumber = (Integer) session.getAttribute("roomNumber");
-
-        if (roomNumber == null) throw RoomNotFoundException.EXCEPTION;
+        Integer roomNumber = Integer.parseInt(authentication.getName());
 
         emailService.registerEmail(roomNumber, request);
 
