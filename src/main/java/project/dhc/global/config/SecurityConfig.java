@@ -54,12 +54,12 @@ public class SecurityConfig {
 
         //허용할 프론트엔드 주소
         corsConfiguration.setAllowedOrigins(List.of(
-                "https://localhost:5173",
-                "https://localhost:5174",
-                "https://localhost:5175",
-                "https://dhc-fe-dev-user-pwa.sungju.xyz/",
-                "https://dhc-fe-dev-admin-pwa.sungju.xyz/",
-                "https://dhc-fe-dev-admin-web.sungju.xyz/"
+                "http://localhost:5173",
+                "http://localhost:5174",
+                "http://localhost:5175",
+                "https://dhc-fe-dev-user-pwa.sungju.xyz",
+                "https://dhc-fe-dev-admin-pwa.sungju.xyz",
+                "https://dhc-fe-dev-admin-web.sungju.xyz"
         ));
         // 허용할 HTTP Methods
         corsConfiguration.setAllowedMethods(List.of(

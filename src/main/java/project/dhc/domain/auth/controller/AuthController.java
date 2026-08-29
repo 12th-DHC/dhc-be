@@ -23,7 +23,7 @@ public class AuthController {
     }
 
     // 사용자 로그인
-    @PostMapping("/user/login")
+    @PostMapping("/users/login")
     public LoginResponse userLogin(
             @RequestBody UserLoginRequest request
     ) {

@@ -11,7 +11,7 @@ import project.dhc.domain.auth.dto.response.LoginResponse;
 import project.dhc.domain.auth.service.AuthService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 
