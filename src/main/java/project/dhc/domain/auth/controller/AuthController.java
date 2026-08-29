@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import project.dhc.domain.auth.dto.request.AdminLoginRequest;
 import project.dhc.domain.auth.dto.request.UserLoginRequest;
 import project.dhc.domain.auth.dto.response.LoginResponse;
+import project.dhc.domain.auth.dto.response.LogoutResponse;
 import project.dhc.domain.auth.service.AuthService;
 
 @RestController
@@ -28,5 +29,17 @@ public class AuthController {
             @RequestBody UserLoginRequest request
     ) {
         return authService.userLogin(request);
+    }
+
+    // 관리자 로그아웃
+    @PostMapping("/admin/logout")
+    public LogoutResponse adminLogout() {
+        return authService.logout();
+    }
+
+    // 유저 로그아웃
+    @PostMapping("/users/logout")
+    public LogoutResponse userLogout() {
+        return authService.logout();
     }
 }

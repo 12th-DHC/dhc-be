@@ -8,6 +8,7 @@ import project.dhc.domain.admin.repository.AdminRepository;
 import project.dhc.domain.auth.dto.request.AdminLoginRequest;
 import project.dhc.domain.auth.dto.request.UserLoginRequest;
 import project.dhc.domain.auth.dto.response.LoginResponse;
+import project.dhc.domain.auth.dto.response.LogoutResponse;
 import project.dhc.domain.user.entity.Room;
 import project.dhc.domain.user.repository.RoomRepository;
 import project.dhc.global.exception.ErrorCode;
@@ -72,6 +73,13 @@ public class AuthService {
                 200,
                 "로그인 완료",
                 accessToken
+        );
+    }
+    // 로그아웃 처리
+    public LogoutResponse logout(){
+
+        return new LogoutResponse(
+                "로그아웃 완료"
         );
     }
 }
