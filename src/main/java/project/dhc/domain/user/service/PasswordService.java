@@ -48,7 +48,6 @@ public class PasswordService {
 
         // 비밀번호 변경 성공 응답
         return new PasswordChangeResponse(
-                200,
                 "비밀번호가 성공적으로 변경되었습니다."
         );
     }
