@@ -8,8 +8,8 @@ import project.dhc.domain.user.dto.request.PasswordChangeRequest;
 import project.dhc.domain.user.dto.response.PasswordChangeResponse;
 import project.dhc.domain.user.entity.Room;
 import project.dhc.domain.user.repository.RoomRepository;
-import project.dhc.global.exception.CustomException;
-import project.dhc.global.exception.ErrorCode;
+import project.dhc.global.exception.exceptions.InvalidPasswordException;
+import project.dhc.global.exception.exceptions.RoomNotFoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +26,7 @@ public class PasswordService {
         // 방 번호로 방 찾기
         Room room = roomRepository.findByRoomNumber(request.getRoomNumber())
                 .orElseThrow(() ->
-                        new CustomException(ErrorCode.ROOM_NOT_FOUND)
+                        RoomNotFoundException.EXCEPTION
                 );
 
         // 현재 비밀번호 확인
@@ -34,7 +34,7 @@ public class PasswordService {
                 request.getCurrentPassword(),
                 room.getRoomPassword()
         )) {
-            throw new CustomException(ErrorCode.INVALID_PASSWORD);
+            throw InvalidPasswordException.EXCEPTION;
         }
 
         // 새 비밀번호 해싱
@@ -46,7 +46,6 @@ public class PasswordService {
 
         // 성공 응답
         return new PasswordChangeResponse(
-                200,
                 "비밀번호가 성공적으로 변경되었습니다."
         );
     }
