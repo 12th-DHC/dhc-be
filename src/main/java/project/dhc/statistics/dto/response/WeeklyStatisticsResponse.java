@@ -1,11 +1,13 @@
 package project.dhc.statistics.dto.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class weeklyStatisticsResponse {
+@AllArgsConstructor
+public class WeeklyStatisticsResponse {
 
     private int userCount;
     private int passedCount;

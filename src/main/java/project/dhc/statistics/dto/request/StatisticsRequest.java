@@ -10,6 +10,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class StatisticsRequest {
 
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private int month;
+    private int week;
 }
