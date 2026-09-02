@@ -34,7 +34,7 @@ public class SecurityConfig {
                                 SessionCreationPolicy.STATELESS // JWT를 사용하기 때문에 세션을 사용하지 않음
                         )
                 ).csrf(csrf -> csrf.disable()) // CSRF는 JWT 방식의 REST API에서는 비활성화(CSRF 보호 기능을 꺼서 인증없이 접근 허용)
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/user/login").permitAll() // 학생 로그인
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/users/login").permitAll() // 학생 로그인
                         .requestMatchers("/auth/admin/login").permitAll() // 관리자 로그인
                         .anyRequest().authenticated() // 그 외 모든 API는 로그인 필요
                 )
