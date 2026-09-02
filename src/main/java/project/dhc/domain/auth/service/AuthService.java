@@ -11,7 +11,6 @@ import project.dhc.domain.auth.dto.response.LoginResponse;
 import project.dhc.domain.auth.dto.response.LogoutResponse;
 import project.dhc.domain.user.entity.Room;
 import project.dhc.domain.user.repository.RoomRepository;
-import project.dhc.global.exception.ErrorCode;
 import project.dhc.global.exception.exceptions.AdminNotFoundException;
 import project.dhc.global.exception.exceptions.InvalidPasswordException;
 import project.dhc.global.exception.exceptions.RoomNotFoundException;
