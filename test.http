@@ -1,10 +1,3 @@
-### ==========================================
-### 3. 유저(호실) 로그인 테스트 (성공)
-### ==========================================
-POST http://localhost:8080/user/login
-Content-Type: application/json
-
-{
-  "room_number": 301,
-  "room_password": "1234!"
-}
+### 오늘 청소 기록 조회
+GET http://localhost:8080/users/st/today
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzMDEiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc4ODM1OTcyNCwiZXhwIjoxNzg4MzYzMzI0fQ.hXGwSH-YD9IBd7Zn604xzm46HD3SRkENIhGsHD3ilIc
