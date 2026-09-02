@@ -9,8 +9,6 @@ import project.dhc.statistics.dto.request.StatisticsRequest;
 import project.dhc.statistics.dto.response.WeeklyUserStatisticsResponse;
 import project.dhc.statistics.entity.CleaningChecked;
 import project.dhc.statistics.repository.CleaningCheckedRepository;
-import project.dhc.domain.user.repository.RoomRepository;
-import project.dhc.global.exception.exceptions.RoomNotFoundException;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -24,7 +22,6 @@ public class UserStatisticsService {
 
     private final CleaningCheckedRepository cleaningCheckedRepository;
     private final JwtTokenProvider jwtTokenProvider;
-    private final RoomRepository roomRepository;
 
     // 주차별 미완료 통계 조회
     @Transactional(readOnly = true)
@@ -32,14 +29,10 @@ public class UserStatisticsService {
             String token,
             StatisticsRequest request
     ) {
-        String tokenValue = token.substring(7);
         // JWT에서 방 번호 가져오기
         Integer roomNumber = Integer.valueOf(
-                jwtTokenProvider.getSubject(tokenValue)
+                jwtTokenProvider.getSubject(token)
         );
-
-        roomRepository.findByRoomNumber(roomNumber)
-                .orElseThrow(() -> RoomNotFoundException.EXCEPTION);
 
         // 선택한 월의 1일
         LocalDate firstDay = LocalDate.of(
