@@ -1,8 +1,8 @@
-POST http://localhost:8080/user/email
+### 주차별 통계 조회
+POST http://localhost:8080/admin/statistics/weekly
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxMDEiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc4NzkyOTQ5MiwiZXhwIjoxNzg3OTMzMDkyfQ.V6TnpmcRNeB0r43az1GDJalPBryF27uGteDyb7T2Ohm7h1dNdT68v2NZbZ4EZvlo
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBRE1JTiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4ODQyMjkzOCwiZXhwIjoxNzg4NDI2NTM4fQ.w6DiUg1RgiAA5_WE3YU_BvtX7T_kEXwqREZSJiKwvrQ
 
 {
-  "area": "B",
-  "email": "a88763741@gmail.com"
+  "month": 8
 }
