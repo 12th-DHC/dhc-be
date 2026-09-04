@@ -1,8 +1,3 @@
-POST http://localhost:8080/user/email
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxMDEiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc4NzkyOTQ5MiwiZXhwIjoxNzg3OTMzMDkyfQ.V6TnpmcRNeB0r43az1GDJalPBryF27uGteDyb7T2Ohm7h1dNdT68v2NZbZ4EZvlo
-
-{
-  "area": "B",
-  "email": "a88763741@gmail.com"
-}
+GET http://localhost:8080/api/users/info
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzMDEiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc4ODUwNDEwOCwiZXhwIjoxNzg4NTA3NzA4fQ.pNLtjnLFXI2m4L64WsaYJ2zY7SOaR1UeG5AN4kbM1zY
+>>>>>>> Stashed changes
