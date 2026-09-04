@@ -1,8 +1,3 @@
-### 주차별 통계 조회
-POST http://localhost:8080/admin/statistics/weekly
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJBRE1JTiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4ODQyMjkzOCwiZXhwIjoxNzg4NDI2NTM4fQ.w6DiUg1RgiAA5_WE3YU_BvtX7T_kEXwqREZSJiKwvrQ
-
-{
-  "month": 8
-}
+GET http://localhost:8080/api/users/info
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzMDEiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc4ODUwNDEwOCwiZXhwIjoxNzg4NTA3NzA4fQ.pNLtjnLFXI2m4L64WsaYJ2zY7SOaR1UeG5AN4kbM1zY
+>>>>>>> Stashed changes
