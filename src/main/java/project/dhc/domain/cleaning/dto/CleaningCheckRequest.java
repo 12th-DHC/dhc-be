@@ -20,14 +20,14 @@ public class CleaningCheckRequest {
     @NotNull
     private Boolean aPassed;
     private String aNotpassReason;
-    @NotNull
+
     private Boolean aIndPassed;
     private String aIndNotpassReason;
 
     @NotNull
     private Boolean bPassed;
     private String bNotpassReason;
-    @NotNull
+
     private Boolean bIndPassed;
     private String bIndNotpassReason;
 }
