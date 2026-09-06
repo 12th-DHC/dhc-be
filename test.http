@@ -1,8 +1,15 @@
-POST http://localhost:8080/user/email
+POST http://localhost:8080/admin/check/101
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxMDEiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc4NzkyOTQ5MiwiZXhwIjoxNzg3OTMzMDkyfQ.V6TnpmcRNeB0r43az1GDJalPBryF27uGteDyb7T2Ohm7h1dNdT68v2NZbZ4EZvlo
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJBRE1JTiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4ODY5Mjk1MiwiZXhwIjoxNzg4Njk2NTUyfQ.lYH1lbUIvnc9rX_yk-flRLL-IT-NDDkPoV4QYsgSIDOaeqZrnhU6k9NdKGXj99ag
 
 {
-  "area": "B",
-  "email": "a88763741@gmail.com"
+  "date": "2026-09-05",
+  "aPassed": true,
+  "aNotpassReason": "A구역 이상 없음",
+  "aIndPassed": true,
+  "aIndNotpassReason": "",
+  "bPassed": true,
+  "bNotpassReason": "B구역 이상 없음",
+  "bIndPassed": true,
+  "bIndNotpassReason": ""
 }
