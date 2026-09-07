@@ -29,7 +29,7 @@ public class AuthService {
     public LoginResponse adminLogin(AdminLoginRequest request) {
 
         // 관리자 조회
-        Admin admin = adminRepository.findById(1L).orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+        Admin admin = adminRepository.findByAdminUsername(request.getAdminUsername()).orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
         // 비밀번호 확인
         if (!passwordEncoder.matches(request.getAdminPassword(), admin.getAdminPassword())) {
