@@ -1,4 +1,4 @@
-package project.dhc.domain.auth.dto.response;
+package project.dhc.auth.dto.response;
 
 
 import lombok.AllArgsConstructor;
