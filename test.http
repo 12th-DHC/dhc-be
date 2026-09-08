@@ -1,8 +1,7 @@
-POST http://localhost:8080/user/email
+POST http://localhost:8080/auth/users/login
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxMDEiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc4NzkyOTQ5MiwiZXhwIjoxNzg3OTMzMDkyfQ.V6TnpmcRNeB0r43az1GDJalPBryF27uGteDyb7T2Ohm7h1dNdT68v2NZbZ4EZvlo
 
 {
-  "area": "B",
-  "email": "a88763741@gmail.com"
+  "roomNumber": "301",
+  "roomPassword": "1234!"
 }

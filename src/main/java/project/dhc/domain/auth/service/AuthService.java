@@ -9,12 +9,16 @@ import project.dhc.domain.auth.dto.request.AdminLoginRequest;
 import project.dhc.domain.auth.dto.request.UserLoginRequest;
 import project.dhc.domain.auth.dto.response.LoginResponse;
 import project.dhc.domain.auth.dto.response.LogoutResponse;
+import project.dhc.domain.auth.entity.RefreshToken;
+import project.dhc.domain.auth.repository.RefreshTokenRepository;
 import project.dhc.domain.user.entity.Room;
 import project.dhc.domain.user.repository.RoomRepository;
 import project.dhc.global.exception.exceptions.AdminNotFoundException;
 import project.dhc.global.exception.exceptions.InvalidPasswordException;
 import project.dhc.global.exception.exceptions.RoomNotFoundException;
 import project.dhc.global.util.JwtTokenProvider;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor // 생성자 자동 생성
@@ -24,29 +28,46 @@ public class AuthService {
     private final RoomRepository roomRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     // 관리자 로그인
     public LoginResponse adminLogin(AdminLoginRequest request) {
 
         // 관리자 조회
-        Admin admin = adminRepository.findById(1L).orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+        Admin admin = adminRepository.findByAdminUsername(request.getAdminUsername()).orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
         // 비밀번호 확인
         if (!passwordEncoder.matches(request.getAdminPassword(), admin.getAdminPassword())) {
             throw InvalidPasswordException.EXCEPTION;
         }
 
-        // 관리자 JWT 생성
+
+        // 관리자 ID를 토큰의 사용자 식별 정보로 사용
+        String subject = String.valueOf(admin.getAdminId());
+
+        // AccessToken, refreshToken 발급
         String accessToken =
                 jwtTokenProvider.createAccessToken(
                         "ADMIN",
                         "ADMIN"
                 );
 
+        String refreshToken =
+                jwtTokenProvider.createRefreshToken(subject);
+
+        //refreshToken DB 저장
+        RefreshToken refreshTokenEntity = new RefreshToken();
+        refreshTokenEntity.setAdmin(admin);
+        refreshTokenEntity.setToken(refreshToken);
+        refreshTokenEntity.setExpiration(LocalDateTime.now().plusDays(7));
+
+        refreshTokenRepository.save(refreshTokenEntity);
+
         return new LoginResponse(
                 200,
                 "어드민 로그인 완료",
-                accessToken
+                accessToken,
+                refreshToken
         );
     }
 
