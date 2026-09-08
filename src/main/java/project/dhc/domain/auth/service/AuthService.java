@@ -1,17 +1,19 @@
-package project.dhc.auth.service;
+package project.dhc.domain.auth.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import project.dhc.domain.admin.entity.Admin;
 import project.dhc.domain.admin.repository.AdminRepository;
-import project.dhc.auth.dto.request.AdminLoginRequest;
-import project.dhc.auth.dto.request.UserLoginRequest;
-import project.dhc.auth.dto.response.LoginResponse;
+import project.dhc.domain.auth.dto.request.AdminLoginRequest;
+import project.dhc.domain.auth.dto.request.UserLoginRequest;
+import project.dhc.domain.auth.dto.response.LoginResponse;
+import project.dhc.domain.auth.dto.response.LogoutResponse;
 import project.dhc.domain.user.entity.Room;
 import project.dhc.domain.user.repository.RoomRepository;
-import project.dhc.global.exception.CustomException;
-import project.dhc.global.exception.ErrorCode;
+import project.dhc.global.exception.exceptions.AdminNotFoundException;
+import project.dhc.global.exception.exceptions.InvalidPasswordException;
+import project.dhc.global.exception.exceptions.RoomNotFoundException;
 import project.dhc.global.util.JwtTokenProvider;
 
 @Service
@@ -27,11 +29,11 @@ public class AuthService {
     public LoginResponse adminLogin(AdminLoginRequest request) {
 
         // 관리자 조회
-        Admin admin = adminRepository.findById(1L).orElseThrow(() -> new CustomException(ErrorCode.ADMIN_NOT_FOUND));
+        Admin admin = adminRepository.findById(1L).orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
         // 비밀번호 확인
         if (!passwordEncoder.matches(request.getAdminPassword(), admin.getAdminPassword())) {
-            throw new CustomException(ErrorCode.INVALID_PASSWORD);
+            throw InvalidPasswordException.EXCEPTION;
         }
 
         // 관리자 JWT 생성
@@ -53,11 +55,11 @@ public class AuthService {
         
         // 방 번호로 조회
         Room room = roomRepository.findByRoomNumber(request.getRoomNumber())
-                .orElseThrow(() -> new CustomException(ErrorCode.ROOM_NOT_FOUND));
+                .orElseThrow(() -> RoomNotFoundException.EXCEPTION);
 
         // 비밀번호 확인
         if(!passwordEncoder.matches(request.getRoomPassword(), room.getRoomPassword())) {
-            throw new CustomException(ErrorCode.INVALID_PASSWORD);
+            throw InvalidPasswordException.EXCEPTION;
         }
 
         //사용자 JWT 생성
@@ -70,6 +72,13 @@ public class AuthService {
                 200,
                 "로그인 완료",
                 accessToken
+        );
+    }
+    // 로그아웃 처리
+    public LogoutResponse logout(){
+
+        return new LogoutResponse(
+                "로그아웃 완료"
         );
     }
 }
