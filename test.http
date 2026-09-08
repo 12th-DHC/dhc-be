@@ -1,15 +1,10 @@
-POST http://localhost:8080/admin/check/101
+### ==========================================
+### 3. 유저(호실) 로그인 테스트 (성공)
+### ==========================================
+POST http://localhost:8080/user/login
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJBRE1JTiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4ODY5Mjk1MiwiZXhwIjoxNzg4Njk2NTUyfQ.lYH1lbUIvnc9rX_yk-flRLL-IT-NDDkPoV4QYsgSIDOaeqZrnhU6k9NdKGXj99ag
 
 {
-  "date": "2026-09-05",
-  "aPassed": true,
-  "aNotpassReason": "A구역 이상 없음",
-  "aIndPassed": true,
-  "aIndNotpassReason": "",
-  "bPassed": true,
-  "bNotpassReason": "B구역 이상 없음",
-  "bIndPassed": true,
-  "bIndNotpassReason": ""
+  "room_number": 301,
+  "room_password": "1234!"
 }
