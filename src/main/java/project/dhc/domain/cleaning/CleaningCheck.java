@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Table(name ="btl_CleaningCheck")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 
 public class CleaningCheck {
@@ -29,7 +29,7 @@ public class CleaningCheck {
     @Column(name = "a_notpass_reason")
     private String aNotpassReason;
 
-    @Column(name = "a_ind_passed", nullable = false)
+    @Column(name = "a_ind_passed")
     private Boolean aIndPassed;
 
     @Column(name = "a_ind_notpass_reason")
@@ -41,7 +41,7 @@ public class CleaningCheck {
     @Column(name = "b_notpass_reason")
     private String bNotpassReason;
 
-    @Column(name = "b_ind_passed", nullable = false)
+    @Column(name = "b_ind_passed")
     private Boolean bIndPassed;
 
     @Column(name = "b_ind_notpass_reason")
