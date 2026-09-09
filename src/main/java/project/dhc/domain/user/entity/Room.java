@@ -27,6 +27,12 @@ public class Room {
     @Column(name = "B_email")
     private String bEmail;
 
+    @Column(name = "A_name")
+    private String aName;
+
+    @Column(name = "B_name")
+    private String bName;
+
     @Column(nullable = false)
     private String roomPassword;
 }
