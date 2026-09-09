@@ -12,15 +12,4 @@ public class LoginResponse {
     private String message; // 로그인 결과 메세지
     private String accessToken; // Access Token
     private String refreshToken; // refresh Token
-
-    public LoginResponse(
-            int status,
-            String message,
-            String accessToken
-    ) {
-        this.status = status;
-        this.message = message;
-        this.accessToken = accessToken;
-        this.refreshToken = null;
-    }
 }

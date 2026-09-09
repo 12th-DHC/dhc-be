@@ -63,6 +63,7 @@ public class AuthService {
 
         refreshTokenRepository.save(refreshTokenEntity);
 
+        // 로그인 응답
         return new LoginResponse(
                 200,
                 "어드민 로그인 완료",
@@ -83,16 +84,35 @@ public class AuthService {
             throw InvalidPasswordException.EXCEPTION;
         }
 
-        //사용자 JWT 생성
+        // Access Token 생성
         String accessToken =
                 jwtTokenProvider.createAccessToken(
                         String.valueOf(room.getRoomNumber()),
                         "USER"
                 );
+
+        // Refresh Token 생성
+        String refreshToken =
+                jwtTokenProvider.createRefreshToken(
+                        String.valueOf(room.getRoomNumber())
+                );
+
+        // Refresh Token DB 저장
+        RefreshToken refreshTokenEntity = new RefreshToken();
+        refreshTokenEntity.setRoom(room);
+        refreshTokenEntity.setToken(refreshToken);
+        refreshTokenEntity.setExpiration(
+                LocalDateTime.now().plusDays(7)
+        );
+
+        refreshTokenRepository.save(refreshTokenEntity);
+
+        // 로그인 응답
         return new LoginResponse(
                 200,
                 "로그인 완료",
-                accessToken
+                accessToken,
+                refreshToken
         );
     }
     // 로그아웃 처리

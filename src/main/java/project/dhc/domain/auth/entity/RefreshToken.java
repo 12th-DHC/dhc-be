@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import project.dhc.domain.admin.entity.Admin;
+import project.dhc.domain.user.entity.Room;
 
 import java.time.LocalDateTime;
 
@@ -20,10 +21,15 @@ public class RefreshToken {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long refreshTokenId;
 
-    // 어떤 관리자에게 발급된 토큰인지 확인
+    // 어드민
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "admin_id", nullable = false)
     private Admin admin;
+
+    // 유저
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id")
+    private Room room;
 
     // refreshToken 값
     @Column(nullable = false, unique = true)
