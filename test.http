@@ -1,6 +1,25 @@
+### Refresh Token 테스트
 POST http://localhost:8080/auth/refresh
 Content-Type: application/json
 
 {
-  "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzg5MDA4NzYzLCJleHAiOjE3ODk2MTM1NjN9.VgSnCkPRBBCai4OObelotOnJnOtIFaORb7PO0Gt9T4g"
+  "refreshToken": "RefreshToken"
+}
+
+
+### 청소 검사 테스트
+POST http://localhost:8080/admin/check/101
+Content-Type: application/json
+Authorization: Bearer AccessToken
+
+{
+  "date": "2026-09-05",
+  "aPassed": true,
+  "aNotpassReason": "A구역 이상 없음",
+  "aIndPassed": true,
+  "aIndNotpassReason": "",
+  "bPassed": true,
+  "bNotpassReason": "B구역 이상 없음",
+  "bIndPassed": true,
+  "bIndNotpassReason": ""
 }

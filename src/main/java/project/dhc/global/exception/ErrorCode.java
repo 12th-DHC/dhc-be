@@ -17,7 +17,8 @@ public enum ErrorCode {
 	NOT_FOUND(404, "NOT_FOUND", "리소스를 찾을 수 없습니다."),
 	ADMIN_NOT_FOUND(404, "ADMIN_NOT_FOUND", "관리자 계정이 존재하지 않습니다."),
 	ROOM_NOT_FOUND(404, "ROOM_NOT_FOUND", "존재하지 않는 호실입니다."),
-	REFRESH_TOKEN_NOT_ROUND(404, "REFRESH_TOKEN_NOT_ROUND", "존재하지 않는 refresh Token입니다."),
+	REFRESH_TOKEN_NOT_FOUND(404, "REFRESH_TOKEN_NOT_FOUND", "존재하지 않는 refresh Token입니다."),
+	CLEANING_SEARCH_NOT_FOUND(404, "CLEANING_SEARCH_NOT_FOUND", "존재하지 않는 청소결과 입니다."),
 
 	INTERNAL_SERVER_ERR(500, "INTERNAL_SERVER_ERR", "서버 측 오류가 발생했습니다.");
 	private Integer statusCode;
