@@ -13,9 +13,7 @@ import project.dhc.domain.auth.entity.RefreshToken;
 import project.dhc.domain.auth.repository.RefreshTokenRepository;
 import project.dhc.domain.user.entity.Room;
 import project.dhc.domain.user.repository.RoomRepository;
-import project.dhc.global.exception.exceptions.AdminNotFoundException;
-import project.dhc.global.exception.exceptions.InvalidPasswordException;
-import project.dhc.global.exception.exceptions.RoomNotFoundException;
+import project.dhc.global.exception.exceptions.*;
 import project.dhc.global.util.JwtTokenProvider;
 
 import java.time.LocalDateTime;
@@ -48,7 +46,7 @@ public class AuthService {
         // AccessToken, refreshToken 발급
         String accessToken =
                 jwtTokenProvider.createAccessToken(
-                        "ADMIN",
+                        subject,
                         "ADMIN"
                 );
 
@@ -114,6 +112,43 @@ public class AuthService {
                 accessToken,
                 refreshToken
         );
+    }
+
+    // Refresh Token 검증 및 Access Token 재발급
+    public String refreshAccessToken(String refreshToken) {
+
+        // refreshToken JWT 검증
+        if(!jwtTokenProvider.validateToken(refreshToken)) {
+            throw InvalidRefreshTokenException.EXCEPTION;
+        }
+        
+        // DB에서 Refresh Token 조회
+        RefreshToken token = refreshTokenRepository.findByToken(refreshToken).orElseThrow(() -> RefreshTokenNotFoundException.EXCEPTION);
+
+        // 어드민 Refresh Token인 경우
+        if(token.getAdmin() != null) {
+            String subject = String.valueOf(
+                    token.getAdmin().getAdminId()
+            );
+
+            return jwtTokenProvider.createAccessToken(
+                    subject,
+                    "ADMIN"
+            );
+        }
+        // 유저 Refresh Token인 경우
+        if(token.getRoom() != null) {
+            String subject = String.valueOf(
+                    token.getRoom().getRoomNumber()
+            );
+
+            return jwtTokenProvider.createAccessToken(
+                    subject,
+                    "USER"
+            );
+        }
+        // 어드민 또는 유저가 연결되지 않은 경우
+        throw InvalidRefreshTokenException.EXCEPTION;
     }
     // 로그아웃 처리
     public LogoutResponse logout(){

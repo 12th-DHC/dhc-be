@@ -1,7 +1,6 @@
-POST http://localhost:8080/auth/users/login
+POST http://localhost:8080/auth/refresh
 Content-Type: application/json
 
 {
-  "roomNumber": "301",
-  "roomPassword": "1234!"
+  "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNzg5MDA4NzYzLCJleHAiOjE3ODk2MTM1NjN9.VgSnCkPRBBCai4OObelotOnJnOtIFaORb7PO0Gt9T4g"
 }
