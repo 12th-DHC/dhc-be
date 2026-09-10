@@ -16,6 +16,6 @@ public class ResetController {
 
     @PostMapping("/admin/reset")
     public void reset(@Valid @RequestBody AdminResetRequest request) {
-        resetService.reset(request)
+        resetService.reset(request);
     }
 }

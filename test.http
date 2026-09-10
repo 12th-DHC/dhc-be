@@ -1,15 +1,7 @@
-POST http://localhost:8080/admin/check/101
+POST http://localhost:8080/admin/reset
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJBRE1JTiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4ODY5Mjk1MiwiZXhwIjoxNzg4Njk2NTUyfQ.lYH1lbUIvnc9rX_yk-flRLL-IT-NDDkPoV4QYsgSIDOaeqZrnhU6k9NdKGXj99ag
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJBRE1JTiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4ODk2Nzc0NiwiZXhwIjoxNzg4OTcxMzQ2fQ.ux_c3FCryoqNbgLC5Yk-F0zFJ2OJU6R_8K58PHaB1zbit7-XbC7igu2Jj9zPiBNa
 
 {
-  "date": "2026-09-05",
-  "aPassed": true,
-  "aNotpassReason": "A구역 이상 없음",
-  "aIndPassed": true,
-  "aIndNotpassReason": "",
-  "bPassed": true,
-  "bNotpassReason": "B구역 이상 없음",
-  "bIndPassed": true,
-  "bIndNotpassReason": ""
+  "adminPassword": "1234"
 }
