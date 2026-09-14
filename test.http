@@ -1,3 +1,13 @@
+### 사용자 정보 조회
 GET http://localhost:8080/api/users/info
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIzMDEiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTc4ODUwNDEwOCwiZXhwIjoxNzg4NTA3NzA4fQ.pNLtjnLFXI2m4L64WsaYJ2zY7SOaR1UeG5AN4kbM1zY
->>>>>>> Stashed changes
+
+
+### 어드민 비밀번호 초기화
+POST http://localhost:8080/admin/reset
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJBRE1JTiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4ODk2Nzc0NiwiZXhwIjoxNzg4OTcxMzQ2fQ.ux_c3FCryoqNbgLC5Yk-F0zFJ2OJU6R_8K58PHaB1zbit7-XbC7igu2Jj9zPiBNa
+
+{
+  "adminPassword": "1234"
+}
