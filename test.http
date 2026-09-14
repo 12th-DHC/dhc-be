@@ -1,7 +1,41 @@
-POST http://localhost:8080/admin/reset
+### 관리자 로그인 — 엑셀 테스트 전에 실행
+POST http://localhost:8080/auth/admin/login
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJBRE1JTiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4ODk2Nzc0NiwiZXhwIjoxNzg4OTcxMzQ2fQ.ux_c3FCryoqNbgLC5Yk-F0zFJ2OJU6R_8K58PHaB1zbit7-XbC7igu2Jj9zPiBNa
 
 {
   "adminPassword": "1234"
 }
+
+> {%
+    client.test("관리자 로그인 성공", function () {
+        client.assert(response.status === 200, "관리자 로그인에 실패했습니다.");
+    });
+    if (response.status === 200) {
+        client.global.set("excelAdminToken", response.body.accessToken);
+    }
+%}
+
+### 주간 청소 엑셀 다운로드 — 월요일 날짜 입력
+POST http://localhost:8080/admin/excel
+Content-Type: application/json
+Authorization: Bearer {{excelAdminToken}}
+
+{
+  "weekStartDate": "2026-09-14"
+}
+
+### 월요일이 아닌 날짜 — 400 응답 확인
+POST http://localhost:8080/admin/excel
+Content-Type: application/json
+Authorization: Bearer {{excelAdminToken}}
+
+{
+  "weekStartDate": "2026-09-15"
+}
+
+### 날짜 누락 — 400 응답 확인
+POST http://localhost:8080/admin/excel
+Content-Type: application/json
+Authorization: Bearer {{excelAdminToken}}
+
+{}
