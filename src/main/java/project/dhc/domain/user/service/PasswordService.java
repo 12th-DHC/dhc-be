@@ -11,27 +11,25 @@ import project.dhc.domain.user.repository.RoomRepository;
 import project.dhc.global.exception.exceptions.InvalidPasswordException;
 import project.dhc.global.exception.exceptions.RoomNotFoundException;
 
-@Service // 비밀번호 변경 관련 비즈니스 로직
-@RequiredArgsConstructor // final 필드 생성자 자동 생성
+@Service
+@RequiredArgsConstructor
 public class PasswordService {
 
     private final RoomRepository roomRepository;
     private final PasswordEncoder passwordEncoder;
 
-
-    // 비밀번호 변경
-    @Transactional // 비밀번호 변경 내용을 DB에 반영
+    @Transactional
     public PasswordChangeResponse changePassword(
             PasswordChangeRequest request
     ) {
 
-        // 방 번호로 방 조회
+        // 방 번호로 방 찾기
         Room room = roomRepository.findByRoomNumber(request.getRoomNumber())
                 .orElseThrow(() ->
                         RoomNotFoundException.EXCEPTION
                 );
 
-        // 현재 비밀번호와 DB의 해시된 비밀번호 비교
+        // 현재 비밀번호 확인
         if (!passwordEncoder.matches(
                 request.getCurrentPassword(),
                 room.getRoomPassword()
@@ -39,14 +37,14 @@ public class PasswordService {
             throw InvalidPasswordException.EXCEPTION;
         }
 
-        // 새 비밀번호를 BCrypt로 해싱
+        // 새 비밀번호 해싱
         String encodedPassword =
                 passwordEncoder.encode(request.getNewPassword());
 
-        // 해싱된 새 비밀번호 저장
+        // DB에 저장
         room.setRoomPassword(encodedPassword);
 
-        // 비밀번호 변경 성공 응답
+        // 성공 응답
         return new PasswordChangeResponse(
                 "비밀번호가 성공적으로 변경되었습니다."
         );
