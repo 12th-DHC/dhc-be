@@ -1,3 +1,15 @@
+### 어드민 비밀번호 변경
+PATCH http://localhost:8080/admin/password
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzg4OTQ3NTQwLCJleHAiOjE3ODg5NTExNDB9.TZEu9F4Zr89KOCeraRQ1cWw3EbLQ65hmESz1AnTx0hA
+Content-Type: application/json
+
+{
+  "currentPassword": "1234",
+  "newPassword": "1234!"
+}
+
+
+### 어드민 비밀번호 초기화
 POST http://localhost:8080/admin/reset
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJBRE1JTiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4ODk2Nzc0NiwiZXhwIjoxNzg4OTcxMzQ2fQ.ux_c3FCryoqNbgLC5Yk-F0zFJ2OJU6R_8K58PHaB1zbit7-XbC7igu2Jj9zPiBNa

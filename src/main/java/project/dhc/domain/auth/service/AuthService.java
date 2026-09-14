@@ -29,17 +29,19 @@ public class AuthService {
     public LoginResponse adminLogin(AdminLoginRequest request) {
 
         // 관리자 조회
-        Admin admin = adminRepository.findById(1L).orElseThrow(() -> AdminNotFoundException.EXCEPTION);
+        Admin admin = adminRepository.findByAdminUsername(request.getAdminUsername()).orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
         // 비밀번호 확인
         if (!passwordEncoder.matches(request.getAdminPassword(), admin.getAdminPassword())) {
             throw InvalidPasswordException.EXCEPTION;
         }
 
+        String subject = String.valueOf(admin.getAdminId()); // 관리자 ID를 JWT의 subject로 사용
+
         // 관리자 JWT 생성
         String accessToken =
                 jwtTokenProvider.createAccessToken(
-                        "ADMIN",
+                        subject,
                         "ADMIN"
                 );
 
