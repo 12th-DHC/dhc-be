@@ -6,8 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class AdminLoginRequest {
+public class RefreshTokenRequest {
 
-    private String adminUsername;
-    private String adminPassword;
+    private String refreshToken;
 }
