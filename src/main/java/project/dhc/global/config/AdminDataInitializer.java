@@ -53,10 +53,8 @@ public class AdminDataInitializer {
             String username,
             String password
     ) {
-        Admin admin = new Admin();
+        Admin admin = Admin.builder().adminUsername(username).adminPassword(passwordEncoder.encode(password)).build();
 
-        admin.setAdminUsername(username); // 유저 네임을 아이디로 성절정
-        admin.setAdminPassword(passwordEncoder.encode(password)); // 비밀번호 암호화 후 관리자 비밀번호로 설정
         adminRepository.save(admin); // 완성된 어드민 객체 db에 저장
     }
 }
