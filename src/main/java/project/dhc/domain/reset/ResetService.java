@@ -26,32 +26,26 @@ public class ResetService {
     private final CleaningCheckRepository cleaningCheckRepository;
 
     public void reset(AdminResetRequest request) {
-
         Admin admin = adminRepository.findById(1L)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
-        if (!passwordEncoder.matches(request.getAdminPassword(), admin.getAdminPassword())) throw InvalidPasswordException.EXCEPTION;
+        if (!passwordEncoder.matches(
+                request.getAdminPassword(),
+                admin.getAdminPassword()
+        )) {
+            throw InvalidPasswordException.EXCEPTION;
+        }
 
         cleaningCheckRepository.deleteAllInBatch();
 
-        roomRepository.deleteAllInBatch();
+        List<Room> rooms = roomRepository.findAll();
 
-        List<Room> rooms = new ArrayList<>();
-
-        createRooms(rooms, 101, 109);
-        createRooms(rooms, 201, 222);
-        createRooms(rooms, 301, 327);
-        createRooms(rooms, 401, 423);
-        createRooms(rooms, 501, 518);
-
-        roomRepository.saveAll(rooms);
-    }
-    private void createRooms(List<Room> rooms, int start, int end) {
-        for (int roomNumber = start; roomNumber <= end; roomNumber++) {
-            Room room = new Room();
-            room.setRoomNumber(roomNumber);
+        for (Room room : rooms) {
             room.setRoomPassword(passwordEncoder.encode("1234"));
-            rooms.add(room);
+            room.setAName(null);
+            room.setBName(null);
+            room.setAEmail(null);
+            room.setBEmail(null);
         }
     }
 }

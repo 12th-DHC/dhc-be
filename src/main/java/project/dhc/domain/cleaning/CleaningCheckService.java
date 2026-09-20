@@ -18,6 +18,7 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class CleaningCheckService {
     private final CleaningCheckRepository cleaningCheckRepository;
+    private final AllCleaningCheckRepository allCleaningCheckRepository;
     private final RoomRepository roomRepository;
     private final AdminRepository adminRepository;
 
@@ -44,6 +45,27 @@ public class CleaningCheckService {
                                     .build();
 
                             cleaningCheckRepository.save(check);
+                        }
+                );
+        allCleaningCheckRepository
+                .findByRoomRoomNumberAndDate(roomNumber, request.getDate())
+                .ifPresentOrElse(
+                        check -> check.update(request),
+                        () -> {
+                            AllCleaningCheck check = AllCleaningCheck.builder()
+                                    .date(request.getDate())
+                                    .aPassed(request.getAPassed())
+                                    .aNotpassReason(request.getANotpassReason())
+                                    .aIndPassed(request.getAIndPassed())
+                                    .aIndNotpassReason(request.getAIndNotpassReason())
+                                    .bPassed(request.getBPassed())
+                                    .bNotpassReason(request.getBNotpassReason())
+                                    .bIndPassed(request.getBIndPassed())
+                                    .bIndNotpassReason(request.getBIndNotpassReason())
+                                    .room(room)
+                                    .build();
+
+                            allCleaningCheckRepository.save(check);
                         }
                 );
     }
