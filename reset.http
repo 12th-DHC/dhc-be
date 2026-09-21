@@ -1,0 +1,8 @@
+### 초기화 요청 — test.http의 관리자 로그인 실행 후, 초기화가 필요할 때만 실행
+POST http://localhost:8080/admin/reset
+Content-Type: application/json
+Authorization: Bearer {{excelAdminToken}}
+
+{
+  "adminPassword": "1234"
+}
