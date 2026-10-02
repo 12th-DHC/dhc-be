@@ -18,6 +18,7 @@ public enum ErrorCode {
 	ROOM_NOT_FOUND(404, "ROOM_NOT_FOUND", "존재하지 않는 호실입니다."),
 	CLEANING_SEARCH_NOT_FOUND(404, "CLEANING_SEARCH_NOT_FOUND", "존재하지 않는 청소결과 입니다."),
 
+	NOTIFICATION_DATA_INCOMPLETE(409, "NOTIFICATION_DATA_INCOMPLETE", "전체 알림 대상의 이름, 이메일과 해당 날짜의 검사 결과를 확인해주세요."),
 	INTERNAL_SERVER_ERR(500, "INTERNAL_SERVER_ERR", "서버 측 오류가 발생했습니다.");
 	private Integer statusCode;
 	private String errorCode;
