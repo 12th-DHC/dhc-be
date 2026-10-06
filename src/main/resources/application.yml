@@ -1,9 +1,19 @@
 spring:
+  config:
+    import: "optional:file:./.env[.properties]"
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+    virtual-host: ${RABBITMQ_VIRTUAL_HOST:/}
+    ssl:
+      enabled: ${RABBITMQ_SSL_ENABLED:false}
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/dhc
-    username: root
-    password:
+    url: ${DB_URL:jdbc:mysql://127.0.0.1:3306/dhc}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
 
   jpa:
     database: mysql
@@ -13,6 +23,11 @@ spring:
 
   jackson:
     property-naming-strategy: LOWER_CAMEL_CASE
+
+notification:
+  rabbitmq:
+    exchange: ${NOTIFICATION_EXCHANGE:}
+    routing-key: ${NOTIFICATION_ROUTING_KEY:}
 
 jwt:
   secret: ${JWT_SECRET:your-super-secret-key-must-be-at-least-32-characters-long!}
