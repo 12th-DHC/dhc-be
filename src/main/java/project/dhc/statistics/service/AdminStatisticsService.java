@@ -98,7 +98,7 @@ public class AdminStatisticsService {
         int userCount = checks.size() * 2;
 
         // 통과한 검사 방 수
-        int passCount = (int) checks.stream().filter(CleaningChecked::isBPassed).count();
+        int passCount = (int) checks.stream().filter(CleaningChecked::isPassed).count();
 
         // A, B 학생의 개별 통과 학생 수
         int indPassCount = (int) checks.stream().mapToLong(check -> {

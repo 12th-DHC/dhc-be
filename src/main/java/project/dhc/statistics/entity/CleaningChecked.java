@@ -10,7 +10,7 @@ import project.dhc.domain.user.entity.Room;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "btl_cleaning_check")
+@Table(name = "tbl_cleaning_check")
 @Getter
 @Setter
 @NoArgsConstructor

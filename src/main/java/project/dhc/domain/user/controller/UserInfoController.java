@@ -2,9 +2,11 @@ package project.dhc.domain.user.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import project.dhc.domain.user.dto.response.UserInfoResponse;
 import project.dhc.domain.user.service.UserInfoService;
+import project.dhc.global.response.ApiResponseMessage;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,10 +17,10 @@ public class UserInfoController {
 
     // 사용자 정보 조회
     @GetMapping("/info")
+    @ApiResponseMessage("정보 조회 완료")
     public UserInfoResponse getUserInfo(
-            @RequestHeader("Authorization")
-            String token // 로그인한 사용자의 JWT를 Authorization 헤더로 받음
+            @AuthenticationPrincipal String roomNumber
     ) {
-        return userInfoService.getUserInfo(token); // 받은 요청을 service에 실제 처리를 맡김
+        return userInfoService.getUserInfo(roomNumber);
     }
 }

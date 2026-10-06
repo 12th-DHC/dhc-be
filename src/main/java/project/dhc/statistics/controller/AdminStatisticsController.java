@@ -22,7 +22,7 @@ public class AdminStatisticsController {
     }
 
     // 주차별 통계 조회
-    @PostMapping("weekly")
+    @PostMapping("/weekly")
     public WeeklyStatisticsResponse getWeeklyStatistics(
             @RequestBody StatisticsRequest request
             ) {
