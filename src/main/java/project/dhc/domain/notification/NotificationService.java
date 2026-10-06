@@ -1,7 +1,6 @@
 package project.dhc.domain.notification;
 
 import lombok.RequiredArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import project.dhc.domain.cleaning.CleaningCheck;
@@ -37,14 +36,10 @@ public class NotificationService {
             if (!roomNumbers.add(room.getRoomNumber())) {
                 throw NotificationDataIncompleteException.EXCEPTION;
             }
-            try {
-                messages.add(mapper.create(room.getAEmail(), room.getAName(), room.getRoomNumber(),
-                        check.getAPassed(), check.getANotpassReason(), check.getAIndPassed()));
-                messages.add(mapper.create(room.getBEmail(), room.getBName(), room.getRoomNumber(),
-                        check.getBPassed(), check.getBNotpassReason(), check.getBIndPassed()));
-            } catch (IllegalArgumentException | NullPointerException e) {
-                throw NotificationDataIncompleteException.EXCEPTION;
-            }
+            messages.add(mapper.create(room.getAEmail(), room.getAName(), room.getRoomNumber(),
+                    check.getAPassed(), check.getANotpassReason(), check.getAIndPassed()));
+            messages.add(mapper.create(room.getBEmail(), room.getBName(), room.getRoomNumber(),
+                    check.getBPassed(), check.getBNotpassReason(), check.getBIndPassed()));
         }
         publisher.publishAll(messages);
     }
