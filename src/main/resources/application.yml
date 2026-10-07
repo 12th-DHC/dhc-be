@@ -3,7 +3,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/dhc
     username: root
-    password:
+    password: ${DB_PASSWORD}
 
   jpa:
     database: mysql
@@ -15,8 +15,23 @@ spring:
     property-naming-strategy: LOWER_CAMEL_CASE
 
 jwt:
-  secret: ${JWT_SECRET:your-super-secret-key-must-be-at-least-32-characters-long!}
+  secret: ${JWT_SECRET}
   access-token-expiration: 3600000
+
+admin:
+  accounts:
+    admin01:
+      username: ${ADMIN01_USERNAME}
+      password: ${ADMIN01_PASSWORD}
+    admin02:
+      username: ${ADMIN02_USERNAME}
+      password: ${ADMIN02_PASSWORD}
+    admin03:
+      username: ${ADMIN03_USERNAME}
+      password: ${ADMIN03_PASSWORD}
+    admin04:
+      username: ${ADMIN04_USERNAME}
+      password: ${ADMIN04_PASSWORD}
 
 logging:
   level:
