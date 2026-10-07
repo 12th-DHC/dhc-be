@@ -23,4 +23,8 @@ public class Admin {
     // 관리자 비밀번호
     @Column(nullable = false) // null값을 허용 X
     private String adminPassword;
+
+    public void changePassword(String newPassword) {
+        this.adminPassword = newPassword;
+    }
 }

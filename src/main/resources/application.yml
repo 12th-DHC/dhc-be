@@ -19,7 +19,7 @@ jwt:
   access-token-expiration: 3600000
 
 admin:
-  account:
+  accounts:
     admin01:
       username: ${ADMIN01_USERNAME}
       password: ${ADMIN01_PASSWORD}

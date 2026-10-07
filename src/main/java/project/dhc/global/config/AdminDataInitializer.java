@@ -2,6 +2,7 @@ package project.dhc.global.config;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,48 +14,50 @@ import project.dhc.domain.admin.repository.AdminRepository;
 @RequiredArgsConstructor
 public class AdminDataInitializer {
 
+    private final AdminRepository adminRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    @Value("${admin.accounts.admin01.username}")
+    private String admin01Username;
+
+    @Value("${admin.accounts.admin01.password}")
+    private String admin01Password;
+
+    @Value("${admin.accounts.admin02.username}")
+    private String admin02Username;
+
+    @Value("${admin.accounts.admin02.password}")
+    private String admin02Password;
+
+    @Value("${admin.accounts.admin03.username}")
+    private String admin03Username;
+
+    @Value("${admin.accounts.admin03.password}")
+    private String admin03Password;
+
+    @Value("${admin.accounts.admin04.username}")
+    private String admin04Username;
+
+    @Value("${admin.accounts.admin04.password}")
+    private String admin04Password;
+
     @Bean
-    CommandLineRunner initAdmin(
-            AdminRepository adminRepository,
-            PasswordEncoder passwordEncoder
-    ){
+    CommandLineRunner initAdmin() {
         return args -> {
-            if(adminRepository.count() == 0) {
-                createAdmin(
-                        adminRepository,
-                        passwordEncoder,
-                        "admin01",
-                        "1234"
-                );
-                createAdmin(
-                        adminRepository,
-                        passwordEncoder,
-                        "admin02",
-                        "1234"
-                );
-                createAdmin(
-                        adminRepository,
-                        passwordEncoder,
-                        "admin03",
-                        "1234"
-                );
-                createAdmin(
-                        adminRepository,
-                        passwordEncoder,
-                        "admin04",
-                        "1234"
-                );
-            }
+                createAdmin(admin01Username, admin01Password);
+                createAdmin(admin02Username, admin02Password);
+                createAdmin(admin03Username, admin03Password);
+                createAdmin(admin04Username, admin04Password);
         };
     }
     private void createAdmin(
-            AdminRepository adminRepository,
-            PasswordEncoder passwordEncoder,
             String username,
             String password
     ) {
-        Admin admin = Admin.builder().adminUsername(username).adminPassword(passwordEncoder.encode(password)).build();
+        if (adminRepository.findByAdminUsername(username).isEmpty()) {
+            Admin admin = Admin.builder().adminUsername(username).adminPassword(passwordEncoder.encode(password)).build();
 
-        adminRepository.save(admin); // 완성된 어드민 객체 db에 저장
+            adminRepository.save(admin); // 완성된 어드민 객체 db에 저장
+        }
     }
 }

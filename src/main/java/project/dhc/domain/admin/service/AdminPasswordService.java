@@ -4,6 +4,7 @@ package project.dhc.domain.admin.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import project.dhc.domain.admin.entity.Admin;
 import project.dhc.domain.admin.repository.AdminRepository;
 import project.dhc.global.exception.exceptions.AdminNotFoundException;
@@ -16,6 +17,7 @@ public class AdminPasswordService {
     private final AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     public void changePassword(
             Long adminId,
             String currentPassword,
@@ -30,11 +32,9 @@ public class AdminPasswordService {
         )) {
             throw InvalidPasswordException.EXCEPTION;
         }
-        // 새 비밀번호 암호화
-        admin.setAdminPassword(
+        // 새 비밀번호 암호화 후 변경
+        admin.changePassword(
                 passwordEncoder.encode(newPassword)
         );
-
-        adminRepository.save(admin);
     }
 }
