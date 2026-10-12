@@ -10,7 +10,7 @@ import project.dhc.global.response.ApiResponseMessage;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/users")
+@RequestMapping("users")
 public class UserInfoController {
 
     private final UserInfoService userInfoService;
