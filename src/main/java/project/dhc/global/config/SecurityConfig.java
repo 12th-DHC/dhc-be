@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/users/login").permitAll() // 학생 로그인
                         .requestMatchers("/auth/admin/login").permitAll() // 관리자 로그인
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/user/**").hasRole("USER")
+                        .requestMatchers("/users/**").hasRole("USER")
                         .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll() // 스웨거
                         .anyRequest().authenticated() // 그 외 모든 API는 로그인 필요
                 )
