@@ -3,6 +3,7 @@ package project.dhc.domain.auth.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import project.dhc.domain.auth.dto.request.AdminLoginRequest;
+import project.dhc.domain.auth.dto.request.RefreshTokenRequest;
 import project.dhc.domain.auth.dto.request.UserLoginRequest;
 import project.dhc.domain.auth.dto.response.LoginResponse;
 import project.dhc.domain.auth.dto.response.LogoutResponse;
@@ -29,6 +30,16 @@ public class AuthController {
             @RequestBody UserLoginRequest request
     ) {
         return authService.userLogin(request);
+    }
+
+    // Refresh Token을 이용한 Access Token 재발급
+    @PostMapping("/refresh")
+    public String refreshAccessToken(
+            @RequestBody RefreshTokenRequest request
+    ){
+        return authService.refreshAccessToken(
+                request.getRefreshToken()
+        );
     }
 
     // 관리자 로그아웃
