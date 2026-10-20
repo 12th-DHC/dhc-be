@@ -6,8 +6,12 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.List;
 
 public interface CleaningCheckRepository extends JpaRepository<CleaningCheck, Long> {
+    @Query("select c from CleaningCheck c join fetch c.room where c.date = :date")
+    List<CleaningCheck> findAllWithRoomByDate(@Param("date") LocalDate date);
+
     Optional<CleaningCheck> findByRoomRoomNumberAndDate(
             Integer roomNumber,
             LocalDate date
