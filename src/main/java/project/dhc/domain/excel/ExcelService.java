@@ -18,10 +18,15 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class ExcelService {
+    private static final int TUESDAY_INDEX = 1;
+    private static final int FRIDAY_INDEX = 4;
+    private static final Set<String> EXEMPTION_REASON_CODES = Set.of("3", "4");
+
     private final RoomRepository roomRepository;
     private final CleaningCheckRepository cleaningCheckRepository;
     private final CleaningExcelGenerator cleaningExcelGenerator;
@@ -34,7 +39,6 @@ public class ExcelService {
 
         Map<Integer, Map<LocalDate, CleaningCheck>> checksByRoom = new HashMap<>();
         for (CleaningCheck check : cleaningCheckRepository.findWeeklyChecks(weekStartDate, weekStartDate.plusDays(4))) {
-            // 동일 날짜의 중복 기록이 있다면 recordId가 가장 큰 최신 기록을 사용한다.
             checksByRoom.computeIfAbsent(check.getRoom().getRoomNumber(), ignored -> new HashMap<>())
                     .put(check.getDate(), check);
         }
@@ -62,10 +66,10 @@ public class ExcelService {
             String normal = aStudent ? check.getANotpassReason() : check.getBNotpassReason();
             List<String> reasons = new ArrayList<>(parseReasons(normal));
             total += reasons.size();
-            exemption |= reasons.contains("3") || reasons.contains("4");
+            exemption |= reasons.stream().anyMatch(EXEMPTION_REASON_CODES::contains);
 
             String individual = aStudent ? check.getAIndNotpassReason() : check.getBIndNotpassReason();
-            if ((day == 1 || day == 4) && individual != null && !individual.isBlank()) {
+            if ((day == TUESDAY_INDEX || day == FRIDAY_INDEX) && individual != null && !individual.isBlank()) {
                 reasons.add("x");
                 total++;
             }

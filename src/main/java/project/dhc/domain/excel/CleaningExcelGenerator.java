@@ -15,6 +15,7 @@ import java.util.List;
 
 @Component
 public class CleaningExcelGenerator {
+    private static final int REPORT_LAST_COLUMN_INDEX = 43;
     private static final String[] HEADERS = {"호실", "이름", "월", "화", "수", "목", "금", "벌점"};
 
     public byte[] generate(LocalDate weekStartDate, List<CleaningExcelRow> rows) {
@@ -31,7 +32,7 @@ public class CleaningExcelGenerator {
             titleFont.setBold(true);
             title.setFont(titleFont);
             cell(sheet, 0, 0, "청결호실 점검 결과표 (" + weekStartDate + " ~ " + weekStartDate.plusDays(4) + ")", title);
-            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 43));
+            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, REPORT_LAST_COLUMN_INDEX));
             sheet.getRow(0).setHeightInPoints(30);
 
             int lastRow = 3;
@@ -86,7 +87,7 @@ public class CleaningExcelGenerator {
             sheet.getPrintSetup().setFitWidth((short) 1);
             sheet.getPrintSetup().setFitHeight((short) 0);
             sheet.setRepeatingRows(new CellRangeAddress(0, 2, -1, -1));
-            workbook.setPrintArea(0, 0, 43, 0, lastRow);
+            workbook.setPrintArea(0, 0, REPORT_LAST_COLUMN_INDEX, 0, lastRow);
             workbook.write(output);
             return output.toByteArray();
         } catch (IOException e) {
