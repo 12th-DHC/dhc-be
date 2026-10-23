@@ -18,7 +18,7 @@ public class Admin {
     private Long adminId;
 
     // 관리자 아이디
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String adminUsername;
 
     // 관리자 비밀번호

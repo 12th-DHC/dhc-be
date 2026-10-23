@@ -2,9 +2,9 @@ package project.dhc.domain.auth.entity;
 
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import project.dhc.domain.admin.entity.Admin;
 import project.dhc.domain.user.entity.Room;
 
@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "refresh_token")
 @Getter
-@Setter
 @NoArgsConstructor
 public class RefreshToken {
 
@@ -23,7 +22,7 @@ public class RefreshToken {
 
     // 어드민
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "admin_id", nullable = false)
+    @JoinColumn(name = "admin_id", nullable = true)
     private Admin admin;
 
     // 유저
@@ -38,4 +37,17 @@ public class RefreshToken {
     // 만료 시간
     @Column(nullable = false)
     private LocalDateTime expiration;
+
+    @Builder
+    public RefreshToken(
+            Admin admin,
+            Room room,
+            String token,
+            LocalDateTime expiration
+    ){
+        this.admin = admin;
+        this.room = room;
+        this.token = token;
+        this.expiration = expiration;
+    }
 }

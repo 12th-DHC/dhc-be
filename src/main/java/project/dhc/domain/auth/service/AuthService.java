@@ -1,14 +1,17 @@
 package project.dhc.domain.auth.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import project.dhc.domain.admin.entity.Admin;
 import project.dhc.domain.admin.repository.AdminRepository;
 import project.dhc.domain.auth.dto.request.AdminLoginRequest;
 import project.dhc.domain.auth.dto.request.UserLoginRequest;
 import project.dhc.domain.auth.dto.response.LoginResponse;
 import project.dhc.domain.auth.dto.response.LogoutResponse;
+import project.dhc.domain.auth.dto.response.RefreshTokenResponse;
 import project.dhc.domain.auth.entity.RefreshToken;
 import project.dhc.domain.auth.repository.RefreshTokenRepository;
 import project.dhc.domain.user.entity.Room;
@@ -16,6 +19,7 @@ import project.dhc.domain.user.repository.RoomRepository;
 import project.dhc.global.exception.exceptions.*;
 import project.dhc.global.util.JwtTokenProvider;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Service
@@ -27,8 +31,12 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
+    @Value("${jwt.refresh-token-expiration}")
+    private long refreshTokenExpiration;
+
 
     // 관리자 로그인
+    @Transactional
     public LoginResponse adminLogin(AdminLoginRequest request) {
 
         // 관리자 조회
@@ -54,11 +62,14 @@ public class AuthService {
                 jwtTokenProvider.createRefreshToken(subject);
 
         //refreshToken DB 저장
-        RefreshToken refreshTokenEntity = new RefreshToken();
-        refreshTokenEntity.setAdmin(admin);
-        refreshTokenEntity.setToken(refreshToken);
-        refreshTokenEntity.setExpiration(LocalDateTime.now().plusDays(7));
+        RefreshToken refreshTokenEntity = RefreshToken.builder()
+                .admin(admin)
+                .token(refreshToken)
+                .expiration(LocalDateTime.now().plus(Duration.ofMillis(refreshTokenExpiration)
+                        )
+                ).build();
 
+        refreshTokenRepository.deleteByAdmin(admin);
         refreshTokenRepository.save(refreshTokenEntity);
 
         // 로그인 응답
@@ -71,6 +82,7 @@ public class AuthService {
     }
 
     // 사용자 로그인
+    @Transactional
     public LoginResponse userLogin(UserLoginRequest request) {
         
         // 방 번호로 조회
@@ -96,12 +108,14 @@ public class AuthService {
                 );
 
         // Refresh Token DB 저장
-        RefreshToken refreshTokenEntity = new RefreshToken();
-        refreshTokenEntity.setRoom(room);
-        refreshTokenEntity.setToken(refreshToken);
-        refreshTokenEntity.setExpiration(
-                LocalDateTime.now().plusDays(7)
-        );
+        RefreshToken refreshTokenEntity = RefreshToken.builder()
+                .room(room)
+                .token(refreshToken)
+                .expiration(LocalDateTime.now().plus(Duration.ofMillis(refreshTokenExpiration)
+                        )
+                ).build();
+
+        refreshTokenRepository.deleteByRoom(room);
 
         refreshTokenRepository.save(refreshTokenEntity);
 
@@ -115,7 +129,7 @@ public class AuthService {
     }
 
     // Refresh Token 검증 및 Access Token 재발급
-    public String refreshAccessToken(String refreshToken) {
+    public RefreshTokenResponse refreshAccessToken(String refreshToken) {
 
         // refreshToken JWT 검증
         if(!jwtTokenProvider.validateToken(refreshToken)) {
@@ -131,10 +145,7 @@ public class AuthService {
                     token.getAdmin().getAdminId()
             );
 
-            return jwtTokenProvider.createAccessToken(
-                    subject,
-                    "ADMIN"
-            );
+            return new RefreshTokenResponse(jwtTokenProvider.createAccessToken(subject, "ADMIN"));
         }
         // 유저 Refresh Token인 경우
         if(token.getRoom() != null) {
@@ -142,10 +153,10 @@ public class AuthService {
                     token.getRoom().getRoomNumber()
             );
 
-            return jwtTokenProvider.createAccessToken(
+            return new RefreshTokenResponse(jwtTokenProvider.createAccessToken(
                     subject,
                     "USER"
-            );
+            ));
         }
         // 어드민 또는 유저가 연결되지 않은 경우
         throw InvalidRefreshTokenException.EXCEPTION;

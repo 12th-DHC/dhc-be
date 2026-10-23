@@ -53,6 +53,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .subject(subject) // 사용자 식별 정보
                 .claim("role", role) // 사용자 권한
+                .claim("type", "ACCESS") // accessToken임을 표시
                 .issuedAt(now) // JWT 발급 시간
                 .expiration(expiration) // JWT 만료 시간
                 .signWith(secretKey) // 비밀키를 이용해 서명
@@ -71,7 +72,12 @@ public class JwtTokenProvider {
         );
 
         // JWT 생성
-        return Jwts.builder().subject(subject).issuedAt(now).expiration(expiration).signWith(secretKey).compact();
+        return Jwts.builder()
+                .subject(subject)
+                .claim("type", "REFRESH") // refreshToken임을 표시
+                .issuedAt(now)
+                .expiration(expiration)
+                .signWith(secretKey).compact();
     }
 
 
@@ -124,5 +130,20 @@ public class JwtTokenProvider {
 
         return getClaims(token)
                 .get("role", String.class);
+    }
+
+    // JWT의 토큰 종류 확인
+    public String getTokenType(String token) {
+        return Jwts.parser()
+                .verifyWith(secretKey) // JWT 서명을 검증
+                .build() //JWT 파서 생성
+                .parseSignedClaims(token) // 토큰의 서명을 검증하고 claims를 파싱
+                .getPayload() // 토큰에 담긴 payload를 가져옴
+                .get("type", String.class); // payload에서 type 값을 String 타입으로 변환하고 가져옴
+    }
+
+    // Access Token인지 확인
+    public boolean isAccessToken(String token) {
+        return "ACCESS".equals(getTokenType(token));
     }
 }

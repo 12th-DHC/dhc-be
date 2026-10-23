@@ -7,6 +7,7 @@ import project.dhc.domain.auth.dto.request.RefreshTokenRequest;
 import project.dhc.domain.auth.dto.request.UserLoginRequest;
 import project.dhc.domain.auth.dto.response.LoginResponse;
 import project.dhc.domain.auth.dto.response.LogoutResponse;
+import project.dhc.domain.auth.dto.response.RefreshTokenResponse;
 import project.dhc.domain.auth.service.AuthService;
 
 @RestController
@@ -34,7 +35,7 @@ public class AuthController {
 
     // Refresh Token을 이용한 Access Token 재발급
     @PostMapping("/refresh")
-    public String refreshAccessToken(
+    public RefreshTokenResponse refreshAccessToken(
             @RequestBody RefreshTokenRequest request
     ){
         return authService.refreshAccessToken(
