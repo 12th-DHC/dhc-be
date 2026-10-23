@@ -30,8 +30,23 @@ notification:
     routing-key: ${NOTIFICATION_ROUTING_KEY:}
 
 jwt:
-  secret: ${JWT_SECRET:your-super-secret-key-must-be-at-least-32-characters-long!}
+  secret: ${JWT_SECRET}
   access-token-expiration: 3600000
+
+admin:
+  accounts:
+    admin01:
+      username: ${ADMIN01_USERNAME}
+      password: ${ADMIN01_PASSWORD}
+    admin02:
+      username: ${ADMIN02_USERNAME}
+      password: ${ADMIN02_PASSWORD}
+    admin03:
+      username: ${ADMIN03_USERNAME}
+      password: ${ADMIN03_PASSWORD}
+    admin04:
+      username: ${ADMIN04_USERNAME}
+      password: ${ADMIN04_PASSWORD}
 
 logging:
   level:

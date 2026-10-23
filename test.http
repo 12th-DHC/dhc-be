@@ -1,7 +1,7 @@
-POST http://localhost:8080/admin/reset
+POST http://localhost:8080/auth/admin/login
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJBRE1JTiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc4ODk2Nzc0NiwiZXhwIjoxNzg4OTcxMzQ2fQ.ux_c3FCryoqNbgLC5Yk-F0zFJ2OJU6R_8K58PHaB1zbit7-XbC7igu2Jj9zPiBNa
 
 {
-  "adminPassword": "1234"
+  "adminUsername": "admin01",
+  "adminPassword": "1234!"
 }
