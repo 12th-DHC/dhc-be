@@ -1,6 +1,8 @@
 package project.dhc.domain.reset;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +29,13 @@ public class ResetService {
 
     public void reset(AdminResetRequest request) {
 
-        Admin admin = adminRepository.findById(1L)
+        // 인증된 사용자의 인증 정보 가져오기
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+
+        Long adminId = Long.valueOf(authentication.getName()); // JWT의 subject에 저장된 관리자 ID 가져오기
+
+        Admin admin = adminRepository.findById(adminId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
         if (!passwordEncoder.matches(request.getAdminPassword(), admin.getAdminPassword())) throw InvalidPasswordException.EXCEPTION;
