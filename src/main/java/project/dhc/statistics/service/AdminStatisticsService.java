@@ -113,10 +113,10 @@ public class AdminStatisticsService {
         }).sum();
 
         // 주차별 통계 결과 반환
-        return new WeeklyStatisticsResponse(
-                userCount,
-                passCount,
-                indPassCount
-        );
+        return WeeklyStatisticsResponse.builder()
+                .userCount(userCount)
+                .passedCount(passCount)
+                .indPassedCount(indPassCount)
+                .build();
     }
 }
