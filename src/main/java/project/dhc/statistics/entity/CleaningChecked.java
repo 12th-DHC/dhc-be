@@ -29,10 +29,6 @@ public class CleaningChecked {
     @Column(nullable = false)
     private LocalDate checkDate;
 
-    // 검사 여부
-    @Column(nullable = false)
-    private boolean checking;
-
     // 통과 여부
     @Column(nullable = false)
     private boolean passed;
