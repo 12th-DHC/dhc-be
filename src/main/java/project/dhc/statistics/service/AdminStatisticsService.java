@@ -55,12 +55,11 @@ public class AdminStatisticsService {
         int userCount = checkCount * 2;
 
         // 통계 결과 변환
-        return new DailyStatisticsResponse(
-                userCount,
-                checkCount,
-                passCount,
-                indPassedCount
-        );
+        return DailyStatisticsResponse.builder()
+                .userCount(userCount)
+                .checkedCount(checkCount)
+                .passedCount(passCount)
+                .build();
     }
 
     @Transactional(readOnly = true)
