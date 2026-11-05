@@ -39,6 +39,7 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/users/**").hasRole("USER")
                         .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll() // 스웨거
+                        .requestMatchers("/admin/alarm").hasRole("ADMIN")
                         .anyRequest().authenticated() // 그 외 모든 API는 로그인 필요
                 )
         // JWT 인증 필터를 Spring Security 필터 순서에 등록
