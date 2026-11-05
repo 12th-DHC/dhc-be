@@ -19,6 +19,8 @@ public interface CleaningCheckRepository extends JpaRepository<CleaningCheck, Lo
             @Param("startDate") LocalDate startDate,
             @Param("endDate") LocalDate endDate
     );
+    @Query("select c from CleaningCheck c join fetch c.room where c.date = :date")
+    List<CleaningCheck> findAllWithRoomByDate(@Param("date") LocalDate date);
 
     Optional<CleaningCheck> findByRoomRoomNumberAndDate(
             Integer roomNumber,
