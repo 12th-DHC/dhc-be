@@ -4,7 +4,6 @@ package project.dhc.statistics.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import project.dhc.global.util.JwtTokenProvider;
 import project.dhc.statistics.dto.request.StatisticsRequest;
 import project.dhc.statistics.dto.response.WeeklyUserStatisticsResponse;
 import project.dhc.statistics.entity.CleaningChecked;
@@ -12,6 +11,7 @@ import project.dhc.statistics.repository.CleaningCheckedRepository;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ public class UserStatisticsService {
 
         // 선택한 월의 1일
         LocalDate firstDay = LocalDate.of(
-                LocalDate.now().getYear(),
+                request.getYear(),
                 request.getMonth(),
                 1
         );
@@ -43,7 +43,21 @@ public class UserStatisticsService {
                 TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY) // 현재 날짜 기준으로 가장 최근에 지난 월요일의 날짜를 계산
         );
 
-        LocalDate lastSunday = firstMonday.plusWeeks(4).plusDays(6); // 5주차까지 필요한 전체 기간
+        // 선택한 월의 마지막 날
+        LocalDate lastDay = firstDay.with(
+                TemporalAdjusters.lastDayOfMonth()
+        );
+
+        // 마지막 주의 일요일
+        LocalDate lastSunday = lastDay.with(
+                TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY)
+        );
+
+        // 전체 주차 수 계산 (6주차까지 자동 처리)
+        int weekCount = (int) ChronoUnit.WEEKS.between(
+                firstMonday,
+                lastSunday.plusDays(1)
+        );
 
         List<CleaningChecked> checks =
                 cleaningCheckedRepository.findByRoom_RoomNumberAndCheckDateBetween(
@@ -54,8 +68,8 @@ public class UserStatisticsService {
 
         List<WeeklyUserStatisticsResponse> result = new ArrayList<>();
 
-        // 1 ~ 5주차 계산
-        for(int week = 1; week <= 5; week++) {
+        // 해당 월에 걸쳐 있는 전체 주차 계산
+        for(int week = 1; week <= weekCount; week++) {
             LocalDate startDate = firstMonday.plusWeeks(week - 1); // 해당 주 월요일
             LocalDate endDate = startDate.plusDays(6); // 해당 주 일요일
 
