@@ -10,6 +10,7 @@ public enum ErrorCode {
 
 	NOT_VALID_DTO_ERR(400, "NOT_VALID_DTO_ERR", "유효하지 않은 요청입니다."),
 	VALIDATION_FAILED(400, "VALIDATION_FAILED", "요청 값이 올바르지 않습니다."),
+	INVALID_WEEK_START_DATE(400, "INVALID_WEEK_START_DATE", "주 시작일은 월요일이어야 합니다."),
 
 	INVALID_PASSWORD(401, "INVALID_PASSWORD", "비밀번호가 올바르지 않습니다.."),
 

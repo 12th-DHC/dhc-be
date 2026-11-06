@@ -9,6 +9,16 @@ import java.util.Optional;
 import java.util.List;
 
 public interface CleaningCheckRepository extends JpaRepository<CleaningCheck, Long> {
+    @Query("""
+            select c from CleaningCheck c
+            join fetch c.room
+            where c.date between :startDate and :endDate
+            order by c.room.roomNumber, c.date, c.recordId
+            """)
+    List<CleaningCheck> findWeeklyChecks(
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate
+    );
     @Query("select c from CleaningCheck c join fetch c.room where c.date = :date")
     List<CleaningCheck> findAllWithRoomByDate(@Param("date") LocalDate date);
 

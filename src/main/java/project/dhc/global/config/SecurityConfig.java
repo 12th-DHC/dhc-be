@@ -73,6 +73,7 @@ public class SecurityConfig {
                 "OPTIONS"
         ));
         corsConfiguration.setAllowedHeaders(List.of("*")); // 모든 헤더 요청 허용
+        corsConfiguration.setExposedHeaders(List.of("Content-Disposition"));
         corsConfiguration.setAllowCredentials(true); // 인증 정보가 포함된 요청 허용
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
