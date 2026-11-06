@@ -36,6 +36,8 @@ public class SecurityConfig {
                 ).csrf(csrf -> csrf.disable()) // CSRF는 JWT 방식의 REST API에서는 비활성화(CSRF 보호 기능을 꺼서 인증없이 접근 허용)
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/users/login").permitAll() // 학생 로그인
                         .requestMatchers("/auth/admin/login").permitAll() // 관리자 로그인
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/users/**").hasRole("USER")
                         .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll() // 스웨거
                         .requestMatchers("/admin/alarm").hasRole("ADMIN")
                         .anyRequest().authenticated() // 그 외 모든 API는 로그인 필요
@@ -73,6 +75,7 @@ public class SecurityConfig {
                 "OPTIONS"
         ));
         corsConfiguration.setAllowedHeaders(List.of("*")); // 모든 헤더 요청 허용
+        corsConfiguration.setExposedHeaders(List.of("Content-Disposition"));
         corsConfiguration.setAllowCredentials(true); // 인증 정보가 포함된 요청 허용
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
