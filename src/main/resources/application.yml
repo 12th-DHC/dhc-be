@@ -38,3 +38,18 @@ logging:
     org.hibernate.SQL: DEBUG
     org.hibernate.orm.jdbc.bind: TRACE
 
+admin:
+  accounts:
+    admin01:
+      username: ${ADMIN01_USERNAME}
+      password: ${ADMIN01_PASSWORD}
+    admin02:
+      username: ${ADMIN02_USERNAME}
+      password: ${ADMIN02_PASSWORD}
+    admin03:
+      username: ${ADMIN03_USERNAME}
+      password: ${ADMIN03_PASSWORD}
+    admin04:
+      username: ${ADMIN04_USERNAME}
+      password: ${ADMIN04_PASSWORD}
+
