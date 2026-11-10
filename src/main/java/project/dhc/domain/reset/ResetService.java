@@ -14,7 +14,6 @@ import project.dhc.domain.user.entity.Room;
 import project.dhc.domain.user.repository.RoomRepository;
 import project.dhc.global.exception.exceptions.AdminNotFoundException;
 import project.dhc.global.exception.exceptions.InvalidPasswordException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
