@@ -8,7 +8,7 @@ import project.dhc.domain.user.entity.Room;
 import java.time.LocalDate;
 
 @Entity
-@Table(name ="btl_CleaningCheck")
+@Table(name = "`btl_CleaningCheck`")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
