@@ -47,9 +47,9 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         //"Bearer " 뒤에 있는 실제 JWT만 추출
         String token = authorization.substring(7);
 
-        // JWT가 정상적인 토큰인지 확인
-        if(!jwtTokenProvider.validateToken(token)) {
-            // 잘못된 토큰이면 다음 필터로 넘김, 실제 보호된 API에서는 인증되지 않은 요청으로 처리
+        // JWT가 정상적인 토큰인지 그리고 accessToken인지 확인
+        if(!jwtTokenProvider.validateToken(token) || !jwtTokenProvider.isAccessToken(token)) {
+            // 잘못된 토큰이거나 accessToken이 아니면 다음 필터로 넘김, 실제 보호된 API에서는 인증되지 않은 요청으로 처리
             filterChain.doFilter(request, response);
             return;
         }

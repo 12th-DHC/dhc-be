@@ -35,6 +35,8 @@ public class SecurityConfig {
                         )
                 ).csrf(csrf -> csrf.disable()) // CSRF는 JWT 방식의 REST API에서는 비활성화(CSRF 보호 기능을 꺼서 인증없이 접근 허용)
                 .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/users/login").permitAll() // 학생 로그인
+                        .requestMatchers("/auth/admin/login").permitAll()// 관리자 로그인
+                        .requestMatchers("/auth/refresh").permitAll() // 토큰 재발급
                         .requestMatchers("/auth/admin/login").permitAll() // 관리자 로그인
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/users/**").hasRole("USER")

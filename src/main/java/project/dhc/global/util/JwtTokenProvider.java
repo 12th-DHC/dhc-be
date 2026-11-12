@@ -13,17 +13,16 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    // JWT 서명에 사용할 비밀키
-    private final SecretKey secretKey;
-
-    // Access Token의 유효시간
-    private final long accessTokenExpiration;
+    private final SecretKey secretKey; // JWT 서명에 사용할 비밀키
+    private final long accessTokenExpiration; // Access Token의 유효시간
+    private final long refreshTokenExpiration; // Refresh Token의 유효시간
 
 
     // application.yml의 값을 가져옴
     public JwtTokenProvider(
             @Value("${jwt.secret}") String secret,
-            @Value("${jwt.access-token-expiration}") long accessTokenExpiration
+            @Value("${jwt.access-token-expiration}") long accessTokenExpiration,
+            @Value("${jwt.refresh-token-expiration}") long refreshTokenExpiration
     ) {
 
         // 문자열로 받은 비밀키를 JWT 서명용 SecretKey로 변환
@@ -33,6 +32,7 @@ public class JwtTokenProvider {
 
         // Access Token 유효시간 저장
         this.accessTokenExpiration = accessTokenExpiration;
+        this.refreshTokenExpiration = refreshTokenExpiration;
     }
 
      // Access Token 생성
@@ -53,10 +53,31 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .subject(subject) // 사용자 식별 정보
                 .claim("role", role) // 사용자 권한
+                .claim("type", "ACCESS") // accessToken임을 표시
                 .issuedAt(now) // JWT 발급 시간
                 .expiration(expiration) // JWT 만료 시간
                 .signWith(secretKey) // 비밀키를 이용해 서명
                 .compact(); // JWT 문자열 생성
+    }
+
+    // Refresh Token 생성
+    public String createRefreshToken(String subject) {
+
+        // 현재 시간
+        Date now = new Date();
+
+        // 만료 시간 계산
+        Date expiration = new Date(
+                now.getTime() + refreshTokenExpiration
+        );
+
+        // JWT 생성
+        return Jwts.builder()
+                .subject(subject)
+                .claim("type", "REFRESH") // refreshToken임을 표시
+                .issuedAt(now)
+                .expiration(expiration)
+                .signWith(secretKey).compact();
     }
 
 
@@ -109,5 +130,20 @@ public class JwtTokenProvider {
 
         return getClaims(token)
                 .get("role", String.class);
+    }
+
+    // JWT의 토큰 종류 확인
+    public String getTokenType(String token) {
+        return Jwts.parser()
+                .verifyWith(secretKey) // JWT 서명을 검증
+                .build() //JWT 파서 생성
+                .parseSignedClaims(token) // 토큰의 서명을 검증하고 claims를 파싱
+                .getPayload() // 토큰에 담긴 payload를 가져옴
+                .get("type", String.class); // payload에서 type 값을 String 타입으로 변환하고 가져옴
+    }
+
+    // Access Token인지 확인
+    public boolean isAccessToken(String token) {
+        return "ACCESS".equals(getTokenType(token));
     }
 }
