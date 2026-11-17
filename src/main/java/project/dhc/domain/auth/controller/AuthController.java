@@ -1,6 +1,7 @@
 package project.dhc.domain.auth.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import project.dhc.domain.auth.dto.request.AdminLoginRequest;
 import project.dhc.domain.auth.dto.request.RefreshTokenRequest;
@@ -45,13 +46,15 @@ public class AuthController {
 
     // 관리자 로그아웃
     @PostMapping("/admin/logout")
-    public LogoutResponse adminLogout() {
-        return authService.logout();
+    public LogoutResponse adminLogout(Authentication authentication) {
+        Long adminId = Long.valueOf(authentication.getName());
+        return authService.adminLogout(adminId);
     }
 
     // 유저 로그아웃
     @PostMapping("/users/logout")
-    public LogoutResponse userLogout() {
-        return authService.logout();
+    public LogoutResponse userLogout(Authentication authentication) {
+        Integer roomNumber = Integer.valueOf(authentication.getName());
+        return authService.userLogout(roomNumber);
     }
 }

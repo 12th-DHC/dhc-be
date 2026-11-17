@@ -161,11 +161,22 @@ public class AuthService {
         // 어드민 또는 유저가 연결되지 않은 경우
         throw InvalidRefreshTokenException.EXCEPTION;
     }
-    // 로그아웃 처리
-    public LogoutResponse logout(){
+    // 어드민 로그아웃 처리
+    @Transactional
+    public LogoutResponse adminLogout(Long adminId) {
+        Admin admin = adminRepository.findById(adminId)
+                .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
-        return new LogoutResponse(
-                "로그아웃 완료"
-        );
+        refreshTokenRepository.deleteByAdmin(admin); // 어드민의 refreshToken 삭제
+        return new LogoutResponse("로그아웃 완료");
+    }
+
+    @Transactional
+    public LogoutResponse userLogout(Integer roomNumber) {
+        Room room = roomRepository.findByRoomNumber(roomNumber)
+                .orElseThrow(() -> RoomNotFoundException.EXCEPTION);
+
+        refreshTokenRepository.deleteByRoom(room);
+        return new LogoutResponse("로그아웃 완료");
     }
 }
