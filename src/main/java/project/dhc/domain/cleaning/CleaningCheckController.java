@@ -33,7 +33,7 @@ public class CleaningCheckController {
 
         return ResponseEntity.ok(result);
     }
-    @GetMapping("/user/search")
+    @GetMapping("/users/search")
     public ResponseEntity<CleaningSearch> CleaningSearch(
             Authentication authentication,
             @RequestParam(name = "date", required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
