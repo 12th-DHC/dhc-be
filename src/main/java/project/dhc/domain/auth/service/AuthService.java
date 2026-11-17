@@ -54,7 +54,7 @@ public class AuthService {
         // AccessToken, refreshToken 발급
         String accessToken =
                 jwtTokenProvider.createAccessToken(
-                        subject,
+                        String.valueOf(admin.getAdminId()),
                         "ADMIN"
                 );
 
@@ -135,7 +135,7 @@ public class AuthService {
         if(!jwtTokenProvider.validateToken(refreshToken)) {
             throw InvalidRefreshTokenException.EXCEPTION;
         }
-        
+
         // DB에서 Refresh Token 조회
         RefreshToken token = refreshTokenRepository.findByToken(refreshToken).orElseThrow(() -> RefreshTokenNotFoundException.EXCEPTION);
 
