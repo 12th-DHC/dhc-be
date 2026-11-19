@@ -41,7 +41,7 @@ public class AuthService {
         // 관리자 JWT 생성
         String accessToken =
                 jwtTokenProvider.createAccessToken(
-                        subject,
+                        String.valueOf(admin.getAdminId()),
                         "ADMIN"
                 );
 
