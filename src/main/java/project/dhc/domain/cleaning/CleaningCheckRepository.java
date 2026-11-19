@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.List;
 
@@ -25,6 +26,16 @@ public interface CleaningCheckRepository extends JpaRepository<CleaningCheck, Lo
     Optional<CleaningCheck> findByRoomRoomNumberAndDate(
             Integer roomNumber,
             LocalDate date
+    );
+    @Query("""
+    select c
+    from CleaningCheck c
+    join fetch c.room
+    where c.date between :startDate and :endDate
+""")
+    List<CleaningCheck> findAllWithRoomByDateBetween(
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate
     );
     @Query("""
     select new project.dhc.domain.cleaning.CleaningSearch(

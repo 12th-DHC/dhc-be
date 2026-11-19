@@ -47,7 +47,6 @@ public class AuthService {
             throw InvalidPasswordException.EXCEPTION;
         }
 
-
         // 관리자 ID를 토큰의 사용자 식별 정보로 사용
         String subject = String.valueOf(admin.getAdminId());
 

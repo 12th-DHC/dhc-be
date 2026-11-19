@@ -1,0 +1,16 @@
+package project.dhc.statistics.dto.request;
+
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+public class StatisticsRequest {
+
+    private int year;
+    private int month;
+    private int week;
+}
