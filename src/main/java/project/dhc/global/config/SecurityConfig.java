@@ -38,10 +38,9 @@ public class SecurityConfig {
                         .requestMatchers("/auth/users/login").permitAll() // 학생 로그인
                         .requestMatchers("/auth/admin/login").permitAll() // 관리자 로그인
                         .requestMatchers("/auth/refresh").permitAll() // 토큰 재발급
-                        .requestMatchers("/auth/users/logout").permitAll() // 학생 로그아웃
-                        .requestMatchers("/auth/admin/logout").permitAll() // 관리자 로그아웃
-                        .requestMatchers("/auth/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/auth/admin/**").hasRole("ADMIN") // 관리자 인증 필요
                         .requestMatchers("/auth/users/**").hasRole("USER")
+                        .requestMatchers("/users/**").hasRole("USER") // 사용자 인증 필요
                         .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll() // 스웨거
                         .requestMatchers("/admin/alarm").hasRole("ADMIN")
                         .anyRequest().authenticated() // 그 외 모든 API는 로그인 필요
