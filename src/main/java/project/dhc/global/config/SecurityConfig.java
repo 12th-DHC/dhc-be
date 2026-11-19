@@ -34,10 +34,13 @@ public class SecurityConfig {
                                 SessionCreationPolicy.STATELESS // JWT를 사용하기 때문에 세션을 사용하지 않음
                         )
                 ).csrf(csrf -> csrf.disable()) // CSRF는 JWT 방식의 REST API에서는 비활성화(CSRF 보호 기능을 꺼서 인증없이 접근 허용)
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/auth/users/login").permitAll() // 학생 로그인
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/auth/users/login").permitAll() // 학생 로그인
                         .requestMatchers("/auth/admin/login").permitAll() // 관리자 로그인
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/users/**").hasRole("USER")
+                        .requestMatchers("/auth/refresh").permitAll() // 토큰 재발급
+                        .requestMatchers("/auth/admin/**").hasRole("ADMIN") // 관리자 인증 필요
+                        .requestMatchers("/auth/users/**").hasRole("USER")
+                        .requestMatchers("/users/**").hasRole("USER") // 사용자 인증 필요
                         .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll() // 스웨거
                         .requestMatchers("/admin/alarm").hasRole("ADMIN")
                         .anyRequest().authenticated() // 그 외 모든 API는 로그인 필요

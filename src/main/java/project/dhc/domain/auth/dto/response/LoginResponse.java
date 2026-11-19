@@ -10,5 +10,6 @@ public class LoginResponse {
 
     private int status; // http 상태 코드
     private String message; // 로그인 결과 메세지
-    private String accessToken; // JWT Access Token
+    private String accessToken; // Access Token
+    private String refreshToken; // refresh Token
 }

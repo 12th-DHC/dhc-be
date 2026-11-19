@@ -12,11 +12,13 @@ public enum ErrorCode {
 	VALIDATION_FAILED(400, "VALIDATION_FAILED", "요청 값이 올바르지 않습니다."),
 	INVALID_WEEK_START_DATE(400, "INVALID_WEEK_START_DATE", "주 시작일은 월요일이어야 합니다."),
 
-	INVALID_PASSWORD(401, "INVALID_PASSWORD", "비밀번호가 올바르지 않습니다.."),
+	INVALID_PASSWORD(401, "INVALID_PASSWORD", "비밀번호가 올바르지 않습니다."),
+	INVALID_REFRESH_TOKEN(401, "INVALID_REFRESH_TOKEN", "존재하지 않거나 유효하지 않는 refresh Token입니다."),
 
 	NOT_FOUND(404, "NOT_FOUND", "리소스를 찾을 수 없습니다."),
 	ADMIN_NOT_FOUND(404, "ADMIN_NOT_FOUND", "관리자 계정이 존재하지 않습니다."),
 	ROOM_NOT_FOUND(404, "ROOM_NOT_FOUND", "존재하지 않는 호실입니다."),
+	REFRESH_TOKEN_NOT_FOUND(404, "REFRESH_TOKEN_NOT_FOUND", "존재하지 않는 refresh Token입니다."),
 	CLEANING_SEARCH_NOT_FOUND(404, "CLEANING_SEARCH_NOT_FOUND", "존재하지 않는 청소결과 입니다."),
 
 	NOTIFICATION_DATA_INCOMPLETE(409, "NOTIFICATION_DATA_INCOMPLETE", "전체 알림 대상의 이름, 이메일과 해당 날짜의 검사 결과를 확인해주세요."),
