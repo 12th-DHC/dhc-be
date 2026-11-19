@@ -36,6 +36,8 @@ public class AuthService {
             throw InvalidPasswordException.EXCEPTION;
         }
 
+        String subject = String.valueOf(admin.getAdminId()); // 관리자 ID를 JWT의 subject로 사용
+
         // 관리자 JWT 생성
         String accessToken =
                 jwtTokenProvider.createAccessToken(
