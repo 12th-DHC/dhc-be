@@ -20,9 +20,6 @@ public class Admin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long adminId;
 
-    @Column(nullable = false, unique = true)
-    private String adminUsername;
-
     // 관리자 로그인 아이디
     @Column(unique = true)
     private String adminUsername;
