@@ -61,7 +61,7 @@ public class JwtTokenProvider {
     }
 
     // Refresh Token 생성
-    public String createRefreshToken(String subject) {
+    public String createRefreshToken(String subject, String role) {
 
         // 현재 시간
         Date now = new Date();
@@ -74,6 +74,7 @@ public class JwtTokenProvider {
         // JWT 생성
         return Jwts.builder()
                 .subject(subject)
+                .claim("role", role)
                 .claim("type", "REFRESH") // refreshToken임을 표시
                 .issuedAt(now)
                 .expiration(expiration)
@@ -145,5 +146,10 @@ public class JwtTokenProvider {
     // Access Token인지 확인
     public boolean isAccessToken(String token) {
         return "ACCESS".equals(getTokenType(token));
+    }
+
+    // Refresh Token인지 확인
+    public boolean isRefreshToken(String token) {
+        return "REFRESH".equals(getTokenType(token));
     }
 }

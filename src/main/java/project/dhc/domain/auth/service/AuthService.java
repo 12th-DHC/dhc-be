@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import project.dhc.domain.admin.entity.Admin;
 import project.dhc.domain.admin.repository.AdminRepository;
 import project.dhc.domain.auth.dto.request.AdminLoginRequest;
@@ -12,15 +12,12 @@ import project.dhc.domain.auth.dto.request.UserLoginRequest;
 import project.dhc.domain.auth.dto.response.LoginResponse;
 import project.dhc.domain.auth.dto.response.LogoutResponse;
 import project.dhc.domain.auth.dto.response.RefreshTokenResponse;
-import project.dhc.domain.auth.entity.RefreshToken;
-import project.dhc.domain.auth.repository.RefreshTokenRepository;
 import project.dhc.domain.user.entity.Room;
 import project.dhc.domain.user.repository.RoomRepository;
 import project.dhc.global.exception.exceptions.*;
 import project.dhc.global.util.JwtTokenProvider;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor // 생성자 자동 생성
@@ -30,13 +27,12 @@ public class AuthService {
     private final RoomRepository roomRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final StringRedisTemplate redisTemplate;
     @Value("${jwt.refresh-token-expiration}")
     private long refreshTokenExpiration;
 
 
     // 관리자 로그인
-    @Transactional
     public LoginResponse adminLogin(AdminLoginRequest request) {
 
         // 관리자 조회
@@ -57,19 +53,14 @@ public class AuthService {
                         "ADMIN"
                 );
 
-        String refreshToken =
-                jwtTokenProvider.createRefreshToken(subject);
+        String refreshToken = jwtTokenProvider.createRefreshToken(subject, "ADMIN");
 
-        //refreshToken DB 저장
-        RefreshToken refreshTokenEntity = RefreshToken.builder()
-                .admin(admin)
-                .token(refreshToken)
-                .expiration(LocalDateTime.now().plus(Duration.ofMillis(refreshTokenExpiration)
-                        )
-                ).build();
-
-        refreshTokenRepository.deleteByAdmin(admin);
-        refreshTokenRepository.save(refreshTokenEntity);
+        // Redis에 Refresh Token 저장
+        redisTemplate.opsForValue().set(
+                getRefreshTokenKey("ADMIN", subject),
+                refreshToken,
+                Duration.ofMillis(refreshTokenExpiration)
+        );
 
         // 로그인 응답
         return new LoginResponse(
@@ -81,7 +72,6 @@ public class AuthService {
     }
 
     // 사용자 로그인
-    @Transactional
     public LoginResponse userLogin(UserLoginRequest request) {
         
         // 방 번호로 조회
@@ -101,22 +91,15 @@ public class AuthService {
                 );
 
         // Refresh Token 생성
-        String refreshToken =
-                jwtTokenProvider.createRefreshToken(
-                        String.valueOf(room.getRoomNumber())
-                );
+        String subject = String.valueOf(room.getRoomNumber());
+        String refreshToken = jwtTokenProvider.createRefreshToken(subject, "USER");
 
-        // Refresh Token DB 저장
-        RefreshToken refreshTokenEntity = RefreshToken.builder()
-                .room(room)
-                .token(refreshToken)
-                .expiration(LocalDateTime.now().plus(Duration.ofMillis(refreshTokenExpiration)
-                        )
-                ).build();
-
-        refreshTokenRepository.deleteByRoom(room);
-
-        refreshTokenRepository.save(refreshTokenEntity);
+        // Redis에 Refresh Token 저장
+        redisTemplate.opsForValue().set(
+                getRefreshTokenKey("USER", subject),
+                refreshToken,
+                Duration.ofMillis(refreshTokenExpiration)
+        );
 
         // 로그인 응답
         return new LoginResponse(
@@ -135,47 +118,47 @@ public class AuthService {
             throw InvalidRefreshTokenException.EXCEPTION;
         }
 
-        // DB에서 Refresh Token 조회
-        RefreshToken token = refreshTokenRepository.findByToken(refreshToken).orElseThrow(() -> RefreshTokenNotFoundException.EXCEPTION);
-
-        // 어드민 Refresh Token인 경우
-        if(token.getAdmin() != null) {
-            String subject = String.valueOf(
-                    token.getAdmin().getAdminId()
-            );
-
-            return new RefreshTokenResponse(jwtTokenProvider.createAccessToken(subject, "ADMIN"));
+        // Refresh Token 종류 확인
+        if (!jwtTokenProvider.isRefreshToken(refreshToken)) {
+            throw InvalidRefreshTokenException.EXCEPTION;
         }
-        // 유저 Refresh Token인 경우
-        if(token.getRoom() != null) {
-            String subject = String.valueOf(
-                    token.getRoom().getRoomNumber()
-            );
 
-            return new RefreshTokenResponse(jwtTokenProvider.createAccessToken(
-                    subject,
-                    "USER"
-            ));
+        String subject = jwtTokenProvider.getSubject(refreshToken);
+        String role = jwtTokenProvider.getRole(refreshToken);
+
+        // 관리자 또는 사용자 토큰인지 확인
+        if (!"ADMIN".equals(role) && !"USER".equals(role)) {
+            throw InvalidRefreshTokenException.EXCEPTION;
         }
-        // 어드민 또는 유저가 연결되지 않은 경우
-        throw InvalidRefreshTokenException.EXCEPTION;
+
+        String savedToken = redisTemplate.opsForValue().get(getRefreshTokenKey(role, subject));
+
+        // Redis에 저장된 토큰인지 확인
+        if (!refreshToken.equals(savedToken)) {
+            throw RefreshTokenNotFoundException.EXCEPTION;
+        }
+
+        return new RefreshTokenResponse(jwtTokenProvider.createAccessToken(subject, role));
     }
     // 어드민 로그아웃 처리
-    @Transactional
     public LogoutResponse adminLogout(Long adminId) {
         Admin admin = adminRepository.findById(adminId)
                 .orElseThrow(() -> AdminNotFoundException.EXCEPTION);
 
-        refreshTokenRepository.deleteByAdmin(admin); // 어드민의 refreshToken 삭제
+        redisTemplate.delete(getRefreshTokenKey("ADMIN", String.valueOf(adminId)));
         return new LogoutResponse("로그아웃 완료");
     }
 
-    @Transactional
     public LogoutResponse userLogout(Integer roomNumber) {
         Room room = roomRepository.findByRoomNumber(roomNumber)
                 .orElseThrow(() -> RoomNotFoundException.EXCEPTION);
 
-        refreshTokenRepository.deleteByRoom(room);
+        redisTemplate.delete(getRefreshTokenKey("USER", String.valueOf(roomNumber)));
         return new LogoutResponse("로그아웃 완료");
+    }
+
+    // Redis에서 사용할 Refresh Token 키 생성
+    private String getRefreshTokenKey(String role, String subject) {
+        return "refreshToken:" + role + ":" + subject;
     }
 }
